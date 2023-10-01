@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Dialog/Editor/Resources/DialogTreeEditor.uss?fileID=7433441132597879392&amp;guid=062d017e95bd28a47b55ab679463a7ab&amp;type=3#DialogTreeEditor" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="file-menu" text="File" />
+        <uie:ToolbarMenu tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="dialog-menu" text="Dialog" />
+    </uie:Toolbar>
+    <DialogTreeView focusable="true" style="flex-grow: 1;" />
+</ui:UXML>
