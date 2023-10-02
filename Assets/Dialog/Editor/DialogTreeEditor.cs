@@ -4,8 +4,9 @@ using UnityEngine.UIElements;
 
 public class DialogTreeEditor : EditorWindow
 {
-    [SerializeField]
-    private VisualTreeAsset m_VisualTreeAsset = default;
+
+    DialogTreeView treeView;
+    InspectorView inspectorView;
 
     [MenuItem("Window/Dialog/Open Editor...")]
     public static void ShowExample()
@@ -20,10 +21,32 @@ public class DialogTreeEditor : EditorWindow
         VisualElement root = rootVisualElement;
 
         // Instantiate UXML
-        VisualElement labelFromUXML = m_VisualTreeAsset.CloneTree();
-        root.Add(labelFromUXML);
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset   >("Assets/Dialog/Editor/Resources/DialogTreeEditor.uxml");
+        visualTree.CloneTree(root);
 
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Dialog/Editor/Resources/DialogTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
+
+        treeView = root.Q<DialogTreeView>();
+        inspectorView = root.Q<InspectorView>();
+
+        treeView.OnNodeSelected = OnNodeSelectionChanged;
+
+        OnSelectionChange();
     }
+
+    private void OnSelectionChange()
+    {
+        DialogTree tree = Selection.activeObject as DialogTree;
+        if (tree != null)
+        {
+            treeView.PopulateView(tree);
+        }
+    }
+
+    void OnNodeSelectionChanged(NodeView node)
+    {
+        inspectorView.UpdateSelection(node);
+    }
+
 }

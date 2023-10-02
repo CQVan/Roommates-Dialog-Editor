@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogNode : MonoBehaviour
+public class RootNode : Node
 {
-    public Node child;
+    public Node next;
+    
 }
