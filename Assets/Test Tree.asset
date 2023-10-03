@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1940333509786080516
+--- !u!114 &-9018824418501315189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,13 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9e56f438341ba4bb3bcf77af6743b2, type: 3}
   m_Name: ChoiceNode
   m_EditorClassIdentifier: 
-  guid: 33382bcaca8202949b125cd3efe8662e
-  position: {x: 342, y: 114}
+  guid: c9409e05cd9e4034f9e561101bd88be8
+  position: {x: 433, y: 323}
   speakerName: 
   speakerMessage: 
   speakerImage: {fileID: 0}
-  callbacks: []
-  children: []
+  typingSpeeds: []
+  eventCallbacks: []
+  choices:
+  - content: {fileID: 0}
+    next: {fileID: 0}
+  - content: {fileID: 0}
+    next: {fileID: 0}
+--- !u!114 &-3872276273570747872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e9e56f438341ba4bb3bcf77af6743b2, type: 3}
+  m_Name: ChoiceNode
+  m_EditorClassIdentifier: 
+  guid: a3204781431bccb4ba8f66d7d74f92f4
+  position: {x: 667, y: 222}
+  speakerName: 
+  speakerMessage: 
+  speakerImage: {fileID: 0}
+  typingSpeeds: []
+  eventCallbacks:
+  - callbackType: 0
+    callbackName: 
+  choices:
+  - content: {fileID: 0}
+    next: {fileID: 0}
+  - content: {fileID: 0}
+    next: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,8 +64,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootNode: {fileID: 0}
   nodes:
-  - {fileID: -1940333509786080516}
   - {fileID: 1228760329943735204}
+  - {fileID: 812529976857662187}
+  - {fileID: -3872276273570747872}
+  - {fileID: -9018824418501315189}
+--- !u!114 &749139617067192451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e9e56f438341ba4bb3bcf77af6743b2, type: 3}
+  m_Name: ChoiceNode
+  m_EditorClassIdentifier: 
+  guid: b4f39d3f232593642bbff3e4ce158213
+  position: {x: 0, y: 0}
+  speakerName: 
+  speakerMessage: 
+  speakerImage: {fileID: 0}
+  typingSpeeds: []
+  eventCallbacks: []
+  choices: []
+--- !u!114 &812529976857662187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b34c0febb2ec8241aee95d0f94297cc, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 5c492668026f0e64ca195902d013d834
+  position: {x: 236, y: 312}
+  speakerName: 
+  speakerMessage: 
+  speakerImage: {fileID: 0}
+  typingSpeeds: []
+  eventCallbacks: []
+  next: {fileID: -9018824418501315189}
 --- !u!114 &1228760329943735204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,12 +121,15 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: ba430758a1e586e4cabe554e0db9e3b2
-  position: {x: 800, y: 167}
+  position: {x: 821, y: 311.5}
   speakerName: 
   speakerMessage: 
   speakerImage: {fileID: 0}
-  callbacks: []
-  child: {fileID: 0}
+  typingSpeeds:
+  - characterLength: 0
+    speed: 0
+  eventCallbacks: []
+  next: {fileID: 0}
 --- !u!114 &2281050719053495952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,5 +147,6 @@ MonoBehaviour:
   speakerName: 
   speakerMessage: 
   speakerImage: {fileID: 0}
-  callbacks: []
-  child: {fileID: 0}
+  typingSpeeds: []
+  eventCallbacks: []
+  next: {fileID: 0}

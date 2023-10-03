@@ -10,6 +10,7 @@ public enum DialogCallbacks
     end
 }
 
+[Serializable]
 public abstract class Node : ScriptableObject
 {
     [HideInInspector]public string guid;
@@ -19,6 +20,23 @@ public abstract class Node : ScriptableObject
     public string speakerMessage;
     public Sprite speakerImage;
 
-    public Dictionary<int, int> typingSpeeds;
-    public Dictionary<DialogCallbacks, string> eventCalls;
+    [Serializable]
+    public struct TypingSpeed
+    {
+        [Tooltip("How many characters the speed is applied to \nSet to -1 if it's for the rest of the message")]
+        public int characterLength;
+        [Tooltip("Characters per Second")]
+        public int speed;
+    }
+
+    public TypingSpeed[] typingSpeeds;
+
+    [Serializable]
+    public struct EventCall
+    {
+        public DialogCallbacks callbackType;
+        public string callbackName;
+    }
+
+    public EventCall[] eventCallbacks;
 }

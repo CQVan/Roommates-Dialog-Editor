@@ -6,10 +6,10 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class DialogTree : ScriptableObject
 {
-    public Node rootNode;
+    public RootNode rootNode;
     public List<Node> nodes;
 
-    private void OnEnable()
+    private void Awake()
     {
         if (rootNode == null)
         {

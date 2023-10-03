@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DialogNode : Node
 {
-    public Node child;
+    public Node next;
 }

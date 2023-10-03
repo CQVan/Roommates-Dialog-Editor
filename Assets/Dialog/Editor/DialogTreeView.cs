@@ -42,7 +42,16 @@ public class DialogTreeView : GraphView
             CreateNodeView(node);
         }
 
-        
+        NodeView rootView = FindNodeView(tree.rootNode);
+        NodeView nextView = FindNodeView(tree.rootNode.next);
+
+        Edge edge = rootView.outputs.ToArray()[0].ConnectTo(nextView.input);
+        AddElement(edge);
+
+        foreach (Node node in tree.nodes)
+        {
+
+        }
     }
 
     NodeView FindNodeView(Node node)
@@ -64,11 +73,79 @@ public class DialogTreeView : GraphView
         {
             foreach (var elem in graphViewChange.elementsToRemove)
             {
-                NodeView nodeView = elem as NodeView;
-
-                if (nodeView != null)
+                if (elem is NodeView nodeView)
                 {
                     tree.DestroyNode(nodeView.node);
+                }
+
+
+                if (elem is Edge edge)
+                {
+                    NodeView parentView = edge.output.node as NodeView;
+
+                    if (parentView.node is RootNode rootNode)
+                    {
+                        rootNode.next = null;
+                        parentView.node = rootNode;
+                    }
+
+                    if (parentView.node is DialogNode dialogNode)
+                    {
+                        dialogNode.next = null;
+                        parentView.node = dialogNode;
+                    }
+
+                    if (parentView.node is ChoiceNode choiceNode)
+                    {
+                        ChoiceNode.Choice[] nodeChoices = choiceNode.choices;
+
+                        for (int i = 0; i < nodeChoices.Length; i++)
+                        {
+                            Debug.Log(edge.output.name.ToString());
+
+                            if (edge.output.name.Equals(nodeChoices[i].guid))
+                            {
+                                nodeChoices[i].next = null;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        if(graphViewChange.edgesToCreate != null)
+        {
+            foreach(var edge  in graphViewChange.edgesToCreate)
+            {
+                NodeView parentView = edge.output.node as NodeView;
+                NodeView childView = edge.input.node as NodeView;
+
+                if (parentView.node is RootNode rootNode)
+                {
+                    rootNode.next = childView.node;
+                    parentView.node = rootNode;
+                }
+
+                if (parentView.node is DialogNode dialogNode)
+                {
+                    dialogNode.next = childView.node;
+                    parentView.node = dialogNode;
+                }
+
+                if(parentView.node is ChoiceNode choiceNode)
+                {
+                    ChoiceNode.Choice[] nodeChoices = choiceNode.choices;
+
+                    for (int i = 0; i < nodeChoices.Length; i++)
+                    {
+                        Debug.Log(edge.output.name.ToString());
+
+                        if(edge.output.name.Equals(nodeChoices[i].guid))
+                        {
+                            nodeChoices[i].next = childView.node;
+                        }
+                    }
                 }
             }
         }
