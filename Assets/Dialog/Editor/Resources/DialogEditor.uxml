@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Dialog/Editor/Resources/DialogEditor.uss?fileID=7433441132597879392&amp;guid=dbd9d8d2e8b01634d9071eff65d3ebb0&amp;type=3#DialogEditor" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" text="File" name="file-menu" />
+        <uie:ToolbarMenu tabindex="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" text="Dialog" name="dialog-menu" />
+    </uie:Toolbar>
+    <SplitView fixed-pane-initial-dimension="300" style="flex-grow: 1;">
+        <ui:VisualElement name="left-panel" style="flex-grow: 1;">
+            <InspectorView />
+            <ui:Label tabindex="10" text="Inspector" parse-escape-sequences="true" display-tooltip-when-elided="true" name="inspector-label" style="align-self: auto; align-items: stretch; justify-content: center; -unity-text-align: middle-left; color: rgb(196, 196, 196); font-size: 16px; background-color: rgb(37, 37, 37); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-left: 2px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel" style="flex-grow: 1;">
+            <ui:Label tabindex="10" text="Dialog Tree" parse-escape-sequences="true" display-tooltip-when-elided="true" name="dialog-tree-label" style="align-self: auto; align-items: stretch; justify-content: center; -unity-text-align: middle-left; color: rgb(196, 196, 196); font-size: 16px; background-color: rgb(37, 37, 37); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-left: 2px;" />
+            <DialogTreeView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </SplitView>
+</ui:UXML>
