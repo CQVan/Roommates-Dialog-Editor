@@ -31,9 +31,16 @@ public class DialogEditor : EditorWindow
         treeView = root.Q<DialogTreeView>();
         inspectorView = root.Q<InspectorView>();
 
+        treeView.OnNodeSelected = OnNodeSelectionChanged;
+
         Toolbar toolbar = root.Q<Toolbar>();
 
         //dialogMenu.menu.AppendAction("Create Dialog Node", );
+    }
+
+    private void OnNodeSelectionChanged(NodeVisual node)
+    {
+        inspectorView.UpdateSelection(node);
     }
 
     private void OnSelectionChange()

@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 public class DialogTreeView : GraphView
 {
     public new class UxmlFactory : UxmlFactory<DialogTreeView, UxmlTraits> { };
+    public Action<NodeVisual> OnNodeSelected;
 
     DialogTree tree;
 
@@ -130,7 +131,7 @@ public class DialogTreeView : GraphView
     private void CreateNodeVisual(NodeData nodeData)
     {
         NodeVisual nodeVisual = new(nodeData);
-        
+        nodeVisual.OnNodeSelected = OnNodeSelected;
         AddElement(nodeVisual);
 
     }

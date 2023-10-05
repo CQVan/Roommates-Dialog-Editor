@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BranchNode
   m_EditorClassIdentifier: 
   guid: 6f298cc459086f545b69e34a138a0051
-  position: {x: 195, y: 0}
+  position: {x: 196, y: 0}
   children:
   - {fileID: -4329466815257546774}
+  - {fileID: 7681786451264694967}
 --- !u!114 &-4329466815257546774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,8 +67,9 @@ MonoBehaviour:
   m_Name: RootNode
   m_EditorClassIdentifier: 
   guid: 820fa3d70fa86c843809d8850a430c4a
-  position: {x: -4, y: 0}
+  position: {x: 2, y: 0}
   child: {fileID: -7092922821121237931}
+  eventCalls: []
 --- !u!114 &7681786451264694967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +83,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: d5366b3c32f64d040a5b111cbf0b96f8
-  position: {x: 0, y: 0}
+  position: {x: 417, y: 77}
   child: {fileID: 0}
   speakerName: 
   speakerMessage: 

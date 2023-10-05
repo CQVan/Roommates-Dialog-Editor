@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class BranchNode : NodeData
 {
-    public List<NodeData> children;
+    [HideInInspector] public List<NodeData> children;
 }

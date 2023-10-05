@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class NodeData : ScriptableObject
 {
-    public string guid;
-    public Vector2 position;
+    [HideInInspector] public string guid;
+    [HideInInspector] public Vector2 position;
 }

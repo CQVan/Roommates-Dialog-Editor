@@ -32,6 +32,13 @@ public class NodeVisual : Node
         data.position.y = newPos.yMin;
     }
 
+    public override void OnSelected()
+    {
+        base.OnSelected();
+
+        OnNodeSelected?.Invoke(this);
+    }
+
     private void GenerateInput()
     {
         if (data is RootNode) return;

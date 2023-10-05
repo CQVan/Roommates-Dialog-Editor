@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class RootNode : NodeData
 {
-    public NodeData child;
+    [HideInInspector] public NodeData child;
+
+    public string[] eventCalls;
 }

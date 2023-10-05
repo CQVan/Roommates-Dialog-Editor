@@ -11,6 +11,18 @@ public struct TypingSpeed
     public int speed;
 }
 
+public enum EventCallType
+{
+    start,
+    end,
+}
+
+public struct EventCalls
+{
+    EventCallType callType;
+    string callName;
+}
+
 public class DialogNode : NodeData
 {
     [HideInInspector]public NodeData child;
@@ -21,7 +33,6 @@ public class DialogNode : NodeData
 
     public TypingSpeed[] typingSpeeds;
     
-    
-
+    public List<EventCalls> events;
 
 }
