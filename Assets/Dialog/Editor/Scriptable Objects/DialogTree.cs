@@ -1,22 +1,24 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Unity.VisualScripting.Metadata;
+
+[Serializable]
+public struct NodeConnectionData
+{
+    public NodeData start;
+    public string portName;
+    public NodeData end;
+}
 
 [CreateAssetMenu()]
 public class DialogTree : ScriptableObject
 {
     public RootNode root;
 
-    public struct NodeConnectionData
-    {
-        public NodeData start;
-        public string portName;
-        public NodeData end;
-    }
-
-    public List<NodeConnectionData> connections;
     public List<NodeData> nodes;
 
     public NodeData CreateNode(System.Type type)
@@ -39,33 +41,61 @@ public class DialogTree : ScriptableObject
         AssetDatabase.SaveAssets();
     }
 
-    public void CreateConnection(Edge edge)
+    public void AddChild(NodeData parent, NodeData child)
     {
-        NodeVisual startNodeVisual = edge.output.node as NodeVisual;
-        NodeVisual endNodeVisual = edge.input.node as NodeVisual;
-
-        NodeConnectionData nodeConnectionData = new NodeConnectionData()
+        if (parent is RootNode rootNode)
         {
-            start = startNodeVisual.data,
-            portName = startNodeVisual.name,
-            end = endNodeVisual.data
-        };
+            rootNode.child = child;
+        }
 
-        connections.Add(nodeConnectionData);
+        if (parent is DialogNode dialogNode)
+        {
+            dialogNode.child = child;
+        }
+
+        if (parent is BranchNode branchNode)
+        {
+            branchNode.children.Add(child);
+        }
+    }
+    
+    public void RemoveChild(NodeData parent, NodeData child)
+    {
+        if (parent is RootNode rootNode)
+        {
+            rootNode.child = null;
+        }
+
+        if (parent is DialogNode dialogNode)
+        {
+            dialogNode.child = null;
+        }
+
+        if (parent is BranchNode branchNode)
+        {
+            branchNode.children.Remove(child);
+        }
     }
 
-    public void DeleteConnection(Edge edge)
+    public List<NodeData> GetChildren(NodeData parent)
     {
-        NodeVisual startNodeVisual = edge.output.node as NodeVisual;
-        NodeVisual endNodeVisual = edge.input.node as NodeVisual;
+        List<NodeData> children = new List<NodeData>();
 
-        NodeConnectionData nodeConnectionData = new NodeConnectionData()
+        if (parent is RootNode rootNode)
         {
-            start = startNodeVisual.data,
-            portName = startNodeVisual.name,
-            end = endNodeVisual.data
-        };
+            children.Add(rootNode.child);
+        }
 
-        connections.Remove(nodeConnectionData);
+        if (parent is DialogNode dialogNode)
+        {
+            children.Add(dialogNode.child);
+        }
+
+        if(parent is BranchNode branchNode)
+        {
+            children.AddRange(branchNode.children);
+        }
+
+        return children;
     }
 }

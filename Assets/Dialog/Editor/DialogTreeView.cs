@@ -45,7 +45,27 @@ public class DialogTreeView : GraphView
             tree.root = CreateNode(typeof(RootNode)) as RootNode;
         }
 
-        
+        LoadEdges(tree.nodes);
+            
+    }
+
+    private void LoadEdges(List<NodeData> nodes)
+    {
+        foreach(NodeData node in nodes)
+        {
+            List<NodeData> children = tree.GetChildren(node);
+
+            foreach(NodeData child in children)
+            {
+                if (child == null) continue;
+
+                NodeVisual parentVisual = GetNodeByGuid(node);
+                NodeVisual childVisual = GetNodeByGuid(child);
+
+                Edge edge = parentVisual.output.ConnectTo(childVisual.input);
+                AddElement(edge);
+            }
+        }
     }
 
     public NodeVisual GetNodeByGuid (NodeData data)
@@ -76,20 +96,23 @@ public class DialogTreeView : GraphView
 
     private void RemoveEdges(List<GraphElement> elementsToRemove)
     {
-        foreach (VisualElement elem in elementsToRemove)
+        foreach(Edge edge in elementsToRemove)
         {
-            if (elem is Edge edge)
-            {
-                tree.DeleteConnection(edge);
-            }
+            NodeVisual parent = edge.output.node as NodeVisual;
+            NodeVisual child = edge.input.node as NodeVisual;
+
+            tree.RemoveChild(parent.data, child.data);
         }
     }
 
     private void CreateEdges(List<Edge> edgesToCreate)
     {
-        foreach(Edge edge in edgesToCreate)
+        foreach (Edge edge in edgesToCreate)
         {
-            tree.CreateConnection(edge);
+            NodeVisual parent = edge.output.node as NodeVisual;
+            NodeVisual child = edge.input.node as NodeVisual;
+
+            tree.AddChild(parent.data, child.data);
         }
     }
 

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class BranchNode : NodeData
 {
-    public NodeData[] choices;
+    public List<NodeData> children;
 }

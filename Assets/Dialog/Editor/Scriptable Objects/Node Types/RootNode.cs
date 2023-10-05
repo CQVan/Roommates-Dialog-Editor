@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class RootNode : NodeData
 {
-    public NodeData next;
+    public NodeData child;
 }
