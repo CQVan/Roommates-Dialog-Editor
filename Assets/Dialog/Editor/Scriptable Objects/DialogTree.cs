@@ -21,9 +21,12 @@ public class DialogTree : ScriptableObject
         node.name = type.Name;
         node.guid = GUID.Generate().ToString();
 
+        Undo.RecordObject(this, "Created " + node.name);
+
         nodes.Add(node);
 
         AssetDatabase.AddObjectToAsset(node, this);
+        Undo.RegisterCreatedObjectUndo(node, "Created " + node.name);
 
         AssetDatabase.SaveAssets();
 
