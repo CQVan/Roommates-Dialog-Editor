@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 using UnityEngine;
+using RDE.Editor.NodeTypes;
 
+[Serializable]
 public class NodeVisual : Node
 {
     public NodeData data;
@@ -28,8 +31,11 @@ public class NodeVisual : Node
     public override void SetPosition(Rect newPos)
     {
         base.SetPosition(newPos);
+        Undo.RecordObject(data, "Moved " + data.name);
         data.position.x = newPos.xMin;
         data.position.y = newPos.yMin;
+        
+        EditorUtility.SetDirty(data);
     }
 
     public override void OnSelected()

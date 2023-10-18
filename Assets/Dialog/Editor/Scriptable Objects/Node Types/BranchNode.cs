@@ -1,8 +1,14 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BranchNode : NodeData
+namespace RDE.Editor.NodeTypes
 {
-    [HideInInspector] public List<NodeData> children;
+    public class BranchNode : NodeData
+    {
+        //[HideInInspector]
+        public List<NodeData> children = new List<NodeData>();
+    }
 }
+

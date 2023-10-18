@@ -1,3 +1,4 @@
+using RDE.Editor.NodeTypes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ public class DialogTreeView : GraphView
     public new class UxmlFactory : UxmlFactory<DialogTreeView, UxmlTraits> { };
     public Action<NodeVisual> OnNodeSelected;
 
-    DialogTree tree;
+    public DialogTree tree;
 
     public DialogTreeView()
     {
@@ -25,16 +26,29 @@ public class DialogTreeView : GraphView
 
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Dialog/Editor/Resources/DialogEditor.uss");
         styleSheets.Add(styleSheet);
+
+        Undo.undoRedoPerformed += OnUndoRedo;
+    }
+
+    private void OnUndoRedo()
+    {
+        //Debug.Log(tree);
+        
+        if(tree == null) return;
+        
+        PopulateView(tree);
+        AssetDatabase.SaveAssets();
+        PopulateView(tree);
     }
 
     internal void PopulateView(DialogTree tree)
     {
+
         this.tree = tree;
 
         graphViewChanged -= OnGraphViewChanged;
         DeleteElements(graphElements);
         graphViewChanged += OnGraphViewChanged;
-
 
         foreach (NodeData nodeData in tree.nodes)
         {
@@ -43,11 +57,16 @@ public class DialogTreeView : GraphView
         
         if(tree.root == null)
         {
-            tree.root = CreateNode(typeof(RootNode)) as RootNode;
+            tree.root = CreateNode(typeof(RootNode), Vector2.zero) as RootNode;
+        }
+
+        foreach(NodeVisual visuals in graphElements)
+        {
+            Debug.Log(visuals.viewDataKey  == visuals.data.guid);
         }
 
         LoadEdges(tree.nodes);
-            
+        
     }
 
     private void LoadEdges(List<NodeData> nodes)
@@ -58,8 +77,9 @@ public class DialogTreeView : GraphView
 
             foreach(NodeData child in children)
             {
+                
                 if (child == null) continue;
-
+                
                 NodeVisual parentVisual = GetNodeByGuid(node);
                 NodeVisual childVisual = GetNodeByGuid(child);
 
@@ -97,7 +117,15 @@ public class DialogTreeView : GraphView
 
     private void RemoveEdges(List<GraphElement> elementsToRemove)
     {
-        foreach(Edge edge in elementsToRemove)
+        List<Edge> edgesToRemove = new List<Edge>();
+
+        foreach (GraphElement element in elementsToRemove)
+        {
+            if (element is Edge edge) edgesToRemove.Add(edge);
+        }
+            
+
+        foreach(Edge edge in edgesToRemove)
         {
             NodeVisual parent = edge.output.node as NodeVisual;
             NodeVisual child = edge.input.node as NodeVisual;
@@ -108,8 +136,10 @@ public class DialogTreeView : GraphView
 
     private void CreateEdges(List<Edge> edgesToCreate)
     {
+
         foreach (Edge edge in edgesToCreate)
         {
+
             NodeVisual parent = edge.output.node as NodeVisual;
             NodeVisual child = edge.input.node as NodeVisual;
 
@@ -136,11 +166,13 @@ public class DialogTreeView : GraphView
 
     }
 
-    private NodeData CreateNode(System.Type type)
+    private NodeData CreateNode(System.Type type, Vector2 position)
     {
         NodeData nodeData = tree.CreateNode(type);
-        CreateNodeVisual(nodeData);
+        nodeData.position = position;
 
+        CreateNodeVisual(nodeData);
+        
         return nodeData;
     }
 
@@ -155,7 +187,8 @@ public class DialogTreeView : GraphView
             {
                 if (type == typeof(RootNode)) continue;
 
-                evt.menu.AppendAction("Create " + type.Name, (a) => CreateNode(type));
+                var pos = viewTransform.matrix.inverse.MultiplyPoint(evt.localMousePosition);
+                evt.menu.AppendAction("Create " + type.Name, (a) => CreateNode(type, pos));
             }
 
             evt.menu.AppendSeparator();

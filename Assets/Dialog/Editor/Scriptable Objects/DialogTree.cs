@@ -4,15 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Unity.VisualScripting.Metadata;
-
-[Serializable]
-public struct NodeConnectionData
-{
-    public NodeData start;
-    public string portName;
-    public NodeData end;
-}
+using RDE.Editor.NodeTypes;
 
 [CreateAssetMenu()]
 public class DialogTree : ScriptableObject
@@ -21,14 +13,18 @@ public class DialogTree : ScriptableObject
 
     public List<NodeData> nodes;
 
+    public int group = -1;
+
     public NodeData CreateNode(System.Type type)
     {
         NodeData node = CreateInstance(type) as NodeData;
         node.name = type.Name;
         node.guid = GUID.Generate().ToString();
+
         nodes.Add(node);
 
         AssetDatabase.AddObjectToAsset(node, this);
+
         AssetDatabase.SaveAssets();
 
         return node;
@@ -36,13 +32,17 @@ public class DialogTree : ScriptableObject
 
     public void DeleteNode(NodeData node)
     {
+
         nodes.Remove(node);
+
         AssetDatabase.RemoveObjectFromAsset(node);
         AssetDatabase.SaveAssets();
     }
 
     public void AddChild(NodeData parent, NodeData child)
     {
+        Undo.RecordObject(parent, "Connected Nodes");
+
         if (parent is RootNode rootNode)
         {
             rootNode.child = child;
@@ -57,10 +57,14 @@ public class DialogTree : ScriptableObject
         {
             branchNode.children.Add(child);
         }
+        
+        EditorUtility.SetDirty(parent);
     }
     
     public void RemoveChild(NodeData parent, NodeData child)
     {
+        Undo.RecordObject(parent, "Disconnected Nodes");
+
         if (parent is RootNode rootNode)
         {
             rootNode.child = null;
@@ -75,6 +79,9 @@ public class DialogTree : ScriptableObject
         {
             branchNode.children.Remove(child);
         }
+
+        EditorUtility.SetDirty(parent);
+
     }
 
     public List<NodeData> GetChildren(NodeData parent)

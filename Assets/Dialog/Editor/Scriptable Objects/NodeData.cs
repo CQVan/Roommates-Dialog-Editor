@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeData : ScriptableObject
+namespace RDE.Editor.NodeTypes
 {
-    [HideInInspector] public string guid;
-    [HideInInspector] public Vector2 position;
+    public class NodeData : ScriptableObject
+    {
+        //[HideInInspector] 
+        public string guid;
+
+        [HideInInspector] public Vector2 position;
+    }
 }

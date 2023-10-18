@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RootNode : NodeData
+namespace RDE.Editor.NodeTypes
 {
-    [HideInInspector] public NodeData child;
+    public class RootNode : NodeData
+    {
+        [HideInInspector] public NodeData child;
 
-    public string[] eventCalls;
+        public string[] eventCalls;
+    }
 }

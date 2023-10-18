@@ -23,16 +23,21 @@ public struct EventCalls
     string callName;
 }
 
-public class DialogNode : NodeData
+namespace RDE.Editor.NodeTypes
 {
-    [HideInInspector]public NodeData child;
+    public class DialogNode : NodeData
+    {
+        [HideInInspector] public NodeData child;
 
-    public string speakerName;
-    public string speakerMessage;
-    public Sprite speakerSprite;
+        public string speakerName;
+        public string speakerMessage;
+        public Sprite speakerSprite;
 
-    public TypingSpeed[] typingSpeeds;
+        public TypingSpeed[] typingSpeeds;
     
-    public List<EventCalls> events;
+        public List<EventCalls> events;
 
+    }
 }
+
+

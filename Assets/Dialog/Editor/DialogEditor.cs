@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,7 +14,20 @@ public class DialogEditor : EditorWindow
     public static void OpenWindow()
     {
         DialogEditor wnd = GetWindow<DialogEditor>();
-        wnd.titleContent = new GUIContent("DialogEditor");
+        wnd.titleContent = new GUIContent("Dialog Editor");
+    }
+
+    [OnOpenAsset]
+    public static bool OnOpenAsset(int instanceId, int line)
+    {
+        if(Selection.activeObject is DialogTree)
+        {
+            OpenWindow();
+            //FocusWindowIfItsOpen(typeof(DialogEditor));
+            return true;
+        }
+
+        return false;
     }
 
     public void CreateGUI()
@@ -45,7 +59,7 @@ public class DialogEditor : EditorWindow
 
     private void OnSelectionChange()
     {
-       DialogTree tree = Selection.activeObject as DialogTree;
+        DialogTree tree = Selection.activeObject as DialogTree;
 
         if (tree != null && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
         {
