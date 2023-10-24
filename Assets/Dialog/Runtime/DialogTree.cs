@@ -9,11 +9,17 @@ using RDE.Editor.NodeTypes;
 [CreateAssetMenu()]
 public class DialogTree : ScriptableObject
 {
-    public RootNode root;
+    [HideInInspector]public RootNode root;
 
-    public List<NodeData> nodes;
+    [HideInInspector]public List<NodeData> nodes;
 
-    public int group = -1;
+    [HideInInspector] public int group = -1;
+
+    public int defaultTypingSpeed = 3;
+
+    public string[] startEventCalls;
+
+    public string[] endEventCalls;
 
     public NodeData CreateNode(System.Type type)
     {

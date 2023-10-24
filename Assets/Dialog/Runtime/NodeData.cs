@@ -7,7 +7,7 @@ namespace RDE.Editor.NodeTypes
 {
     public class NodeData : ScriptableObject
     {
-        //[HideInInspector] 
+        [HideInInspector] 
         public string guid;
 
         [HideInInspector] public Vector2 position;

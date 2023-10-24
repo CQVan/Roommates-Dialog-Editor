@@ -16,8 +16,8 @@ MonoBehaviour:
   position: {x: 584, y: -77}
   child: {fileID: 0}
   speakerName: 
-  speakerMessage: 046ce6092c6065a419e00f2f499fb9d3
   speakerSprite: {fileID: 0}
+  speakerMessage: 
   typingSpeeds: []
 --- !u!114 &-4694167310973896041
 MonoBehaviour:
@@ -34,7 +34,6 @@ MonoBehaviour:
   guid: 487983ddfd671fe47af698fe4b4aaa93
   position: {x: 0, y: 0}
   child: {fileID: -1859233649761629033}
-  eventCalls: []
 --- !u!114 &-2783976821243918218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,8 +50,8 @@ MonoBehaviour:
   position: {x: 806, y: -77}
   child: {fileID: 0}
   speakerName: 
-  speakerMessage: 
   speakerSprite: {fileID: 0}
+  speakerMessage: 
   typingSpeeds: []
 --- !u!114 &-1859233649761629033
 MonoBehaviour:
@@ -67,12 +66,14 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 79c39aefdfbd95e4b8711ae60bde6f31
-  position: {x: 204, y: 0}
+  position: {x: 184, y: 0}
   child: {fileID: 1374761789051995622}
   speakerName: 
-  speakerMessage: 
   speakerSprite: {fileID: 0}
-  typingSpeeds: []
+  speakerMessage: You only have ?(jojopose) $(cash) in your acount
+  typingSpeeds:
+  - charLength: 0
+    speed: 5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +94,9 @@ MonoBehaviour:
   - {fileID: -6410822211068788882}
   - {fileID: 6475342684802623257}
   group: -1
+  defaultTypingSpeed: 3
+  startEventCalls: []
+  endEventCalls: []
 --- !u!114 &1374761789051995622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +130,6 @@ MonoBehaviour:
   position: {x: 584, y: 77}
   child: {fileID: 0}
   speakerName: 
-  speakerMessage: 
   speakerSprite: {fileID: 0}
+  speakerMessage: 
   typingSpeeds: []

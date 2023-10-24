@@ -8,20 +8,14 @@ public struct TypingSpeed
 {
     [Tooltip("The length of characters the speed is to last for\nInput 0 if it is to last for the entire message")]
     public int charLength;
+    [Tooltip("The speed in which the characters are typed out\nCharacters per second")]
     public int speed;
 }
 
-public enum EventCallType
-{
-    start,
-    end,
-}
-
-public struct EventCalls
-{
-    EventCallType callType;
-    string callName;
-}
+// Data Calls
+//
+// $() is data embeding
+// &() is event calling
 
 namespace RDE.Editor.NodeTypes
 {
@@ -30,12 +24,12 @@ namespace RDE.Editor.NodeTypes
         [HideInInspector] public NodeData child;
 
         public string speakerName;
-        public string speakerMessage;
         public Sprite speakerSprite;
 
+        [TextArea(5,20)]
+        public string speakerMessage;
+
         public TypingSpeed[] typingSpeeds;
-    
-        public List<EventCalls> events;
 
     }
 }
