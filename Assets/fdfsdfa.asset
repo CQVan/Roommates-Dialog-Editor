@@ -70,7 +70,7 @@ MonoBehaviour:
   child: {fileID: 1374761789051995622}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: You only have ?(jojopose) $(cash) in your acount
+  speakerMessage: You only have ${testCall} in your acount ${testCall}
   typingSpeeds:
   - charLength: 0
     speed: 5

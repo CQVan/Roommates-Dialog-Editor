@@ -14,8 +14,8 @@ public struct TypingSpeed
 
 // Data Calls
 //
-// $() is data embeding
-// &() is event calling
+// ${dataName} is data embeding
+// &{eventName} is event calling
 
 namespace RDE.Editor.NodeTypes
 {

@@ -523,6 +523,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b8374e072a8e643820b5fe1e42e0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tree: {fileID: 11400000, guid: 046ce6092c6065a419e00f2f499fb9d3, type: 2}
+  speakerImage: {fileID: 0}
+  textBox: {fileID: 0}
+  optionPrefab: {fileID: 0}
+  eventCalls: []
+  dataCalls:
+  - dataName: testCall
+    callback:
+      _target: {fileID: 1575323616}
+      _methodName: testCallback
+      _args: []
+      _dynamic: 0
+      _typeName: DataCallback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      dirty: 0
 --- !u!4 &1575323617
 Transform:
   m_ObjectHideFlags: 0

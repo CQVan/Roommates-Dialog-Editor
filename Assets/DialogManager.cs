@@ -1,20 +1,27 @@
 using RDE.Editor.NodeTypes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+[Serializable]
 public struct EventCall
 {
     public string eventName;
-    public UnityEvent function;
+    public UnityEvent eventCallback;
 }
 
+[Serializable]
+public class DataCallback : SerializableCallback<string> { }
+
+[Serializable]
 public struct DataCall
 {
     public string dataName;
-    public UnityEvent getter;
+    public DataCallback callback;
 }
 
 public class DialogManager : MonoBehaviour
@@ -42,10 +49,15 @@ public class DialogManager : MonoBehaviour
             {
                 if (call.eventName == callName)
                 {
-                    call.function.Invoke();
+                    call.eventCallback.Invoke();
                 }
             }
         }
+    }
+
+    public string testCallback()
+    {
+        return "dfajsd;lfaj";
     }
 
     private void RunTree(DialogTree tree)
@@ -66,23 +78,37 @@ public class DialogManager : MonoBehaviour
     public IEnumerator DisplayLine(DialogNode node, DialogTree tree)
     {
 
-        while(node.speakerMessage.IndexOf("$(") != -1)
-        {
-
-        }
+        string message = HandleDataCalls(node.speakerMessage);
 
         int currentTypingSpeed = tree.defaultTypingSpeed;
 
-        if(node.typingSpeeds.Length > 0)
+        yield return new WaitForSeconds(currentTypingSpeed);
+    }
+
+    private string HandleDataCalls(string speakerMessage)
+    {
+
+        int callStart = speakerMessage.IndexOf("${");
+        int callEnd = speakerMessage.IndexOf("}");
+
+        if(callStart == -1 || callEnd == -1)
         {
-
+            return speakerMessage;
         }
-        else //uses default typing speed
+
+        string callName = speakerMessage.Substring(callStart + 2, callEnd - callStart - 2);
+        string message = speakerMessage.Substring(0, callStart);
+
+        foreach (DataCall dataCall in dataCalls)
         {
-            
-
-
-
+            if (dataCall.dataName.Equals(callName))
+            {
+                message += dataCall.callback.Invoke();
+            }
         }
+
+        message += speakerMessage.Substring(callEnd + 1);
+
+        return HandleDataCalls(message);
     }
 }

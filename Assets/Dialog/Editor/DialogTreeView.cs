@@ -61,11 +61,6 @@ public class DialogTreeView : GraphView
             tree.root = CreateNode(typeof(RootNode), Vector2.zero) as RootNode;
         }
 
-        foreach(NodeVisual visuals in graphElements)
-        {
-            Debug.Log(visuals.viewDataKey  == visuals.data.guid);
-        }
-
         LoadEdges(tree.nodes);
         
     }
