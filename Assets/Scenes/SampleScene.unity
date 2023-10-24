@@ -480,7 +480,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 6.2465973, y: 0, z: 9.994507, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -525,15 +525,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: 046ce6092c6065a419e00f2f499fb9d3, type: 2}
   speakerImage: {fileID: 0}
-  textBox: {fileID: 0}
+  textBox: {fileID: 1143884760}
   optionPrefab: {fileID: 0}
-  eventCalls: []
+  eventCalls:
+  - eventName: Breaks
+    eventCallback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1575323616}
+          m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+          m_MethodName: SendMessage
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Breaks Desk
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventName: 
+    eventCallback:
+      m_PersistentCalls:
+        m_Calls: []
   dataCalls:
   - dataName: testCall
     callback:
       _target: {fileID: 1575323616}
       _methodName: testCallback
-      _args: []
+      _args:
+      - boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 4
+        objectValue: {fileID: 0}
+        argType: 4
+        _typeName: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       _dynamic: 0
       _typeName: DataCallback, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null

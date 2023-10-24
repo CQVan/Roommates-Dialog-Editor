@@ -2,6 +2,7 @@ using RDE.Editor.NodeTypes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,7 +30,7 @@ public class DialogManager : MonoBehaviour
     public DialogTree tree;
 
     public Image speakerImage;
-    public Text textBox;
+    public TextMeshProUGUI textBox;
 
     public GameObject optionPrefab;
 
@@ -55,13 +56,14 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public string testCallback()
+    public string testCallback(string input)
     {
-        return "dfajsd;lfaj";
+        return input;
     }
 
     private void RunTree(DialogTree tree)
     {
+
         if(tree.startEventCalls.Length > 0)
         {
             RunStartCalls(tree);
@@ -78,25 +80,65 @@ public class DialogManager : MonoBehaviour
     public IEnumerator DisplayLine(DialogNode node, DialogTree tree)
     {
 
+        textBox.text = "";
+
         string message = HandleDataCalls(node.speakerMessage);
 
         int currentTypingSpeed = tree.defaultTypingSpeed;
 
-        yield return new WaitForSeconds(currentTypingSpeed);
+        if(node.typingSpeeds.Length > 0)
+        {
+
+        }
+        else
+        {
+            char[] messageChars = message.ToCharArray();
+
+            for(int i = 0; i < messageChars.Length; i++)
+            {
+                if (messageChars[i] == '&' && messageChars[i + 1] == '{')
+                {
+                    if (message.Substring(i).IndexOf('}') != -1)
+                    {
+                        string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
+
+                        foreach (EventCall call in eventCalls)
+                        {
+                            if(call.eventName == callName)
+                            {
+                                i = message.IndexOf('}') + 1;
+
+                                if (i >= messageChars.Length) yield break;
+
+                                call.eventCallback.Invoke();
+                            }
+                        }
+                    }
+
+
+                }
+
+                textBox.text += messageChars[i];
+                yield return new WaitForSeconds(1 / currentTypingSpeed);
+            }
+        }
     }
 
     private string HandleDataCalls(string speakerMessage)
     {
 
         int callStart = speakerMessage.IndexOf("${");
-        int callEnd = speakerMessage.IndexOf("}");
+        
 
-        if(callStart == -1 || callEnd == -1)
+        if(callStart == -1)
         {
             return speakerMessage;
         }
 
-        string callName = speakerMessage.Substring(callStart + 2, callEnd - callStart - 2);
+        int callEnd = speakerMessage[callStart..].IndexOf("}") + callStart-2;
+
+        string callName = speakerMessage.Substring(callStart + 2, callEnd - callStart);
+
         string message = speakerMessage.Substring(0, callStart);
 
         foreach (DataCall dataCall in dataCalls)
@@ -107,7 +149,7 @@ public class DialogManager : MonoBehaviour
             }
         }
 
-        message += speakerMessage.Substring(callEnd + 1);
+        message += speakerMessage.Substring(callEnd+3);
 
         return HandleDataCalls(message);
     }
