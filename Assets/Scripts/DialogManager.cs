@@ -68,11 +68,6 @@ public class DialogManager : MonoBehaviour
 
         FillDialogQueue(tree);
 
-        foreach(NodeData node in nodeQueue)
-        {
-            Debug.Log(node);
-        }
-
         dialogTree = tree;
 
         DisplayNextLine();
