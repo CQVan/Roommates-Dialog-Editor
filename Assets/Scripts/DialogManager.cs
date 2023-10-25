@@ -95,7 +95,7 @@ public class DialogManager : MonoBehaviour
 
     private void EndDialog()
     {
-        
+        textBox.text = "";
     }
 
     
@@ -137,50 +137,54 @@ public class DialogManager : MonoBehaviour
         textBox.text = "";
         displayingLine = true;
 
+        Queue<TypingSpeed> speeds = new Queue<TypingSpeed>();
+        foreach(TypingSpeed speed in node.typingSpeeds)
+            speeds.Enqueue(speed);
+
+        speeds.Enqueue(new TypingSpeed() { charLength=-10, speed= dialogTree.defaultTypingSpeed} );
+
         string message = HandleDataCalls(node.speakerMessage);
 
-        float currentTypingSpeed = dialogTree.defaultTypingSpeed;
+        TypingSpeed firstSpeed = speeds.Dequeue();
+        float currentTypingSpeed = firstSpeed.speed;
+        int currentCharLength = firstSpeed.charLength;
 
-        if(node.typingSpeeds.Length > 0)
+        char[] messageChars = message.ToCharArray();
+
+        for(int i = 0; i < messageChars.Length; i++)
         {
 
-        }
-        else
-        {
-            char[] messageChars = message.ToCharArray();
-
-            for(int i = 0; i < messageChars.Length; i++)
+            if (messageChars[i] == '&' && messageChars[i + 1] == '{')
             {
-                if (messageChars[i] == ' ')
+                if (message.Substring(i).IndexOf('}') != -1)
                 {
-                    textBox.text += messageChars[i];
-                    continue;
-                }
+                    string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
 
-                if (messageChars[i] == '&' && messageChars[i + 1] == '{')
-                {
-                    if (message.Substring(i).IndexOf('}') != -1)
+                    foreach (EventCall call in eventCalls)
                     {
-                        string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
-
-                        foreach (EventCall call in eventCalls)
+                        if(call.eventName == callName)
                         {
-                            if(call.eventName == callName)
-                            {
-                                i = message.IndexOf('}') + 1;
+                            i = message.IndexOf('}') + 1;
 
-                                if (i >= messageChars.Length) yield break;
+                            if (i >= messageChars.Length) yield break;
 
-                                call.eventCallback.Invoke();
-                            }
+                            call.eventCallback.Invoke();
                         }
                     }
-
-
                 }
-                
-                textBox.text += messageChars[i];
-                yield return new WaitForSeconds(1.0f / currentTypingSpeed);
+
+
+            }
+
+            textBox.text += messageChars[i];
+            currentCharLength--;
+            yield return new WaitForSeconds(1.0f / currentTypingSpeed);
+
+            if(currentCharLength == 0)
+            {
+                TypingSpeed nextSpeed = speeds.Dequeue();
+                currentTypingSpeed = nextSpeed.speed;
+                currentCharLength = nextSpeed.charLength;
             }
         }
 

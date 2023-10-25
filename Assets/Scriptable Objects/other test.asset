@@ -36,11 +36,11 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: a9864e29aa82de94e9a2935ea5f4cccc
-  position: {x: 197.05003, y: -0.0000076293945}
+  position: {x: 197, y: 0}
   child: {fileID: 7480103673738650993}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: Test
+  speakerMessage: Check
   typingSpeeds: []
 --- !u!114 &1094963988040138186
 MonoBehaviour:
@@ -74,7 +74,7 @@ MonoBehaviour:
   child: {fileID: 6187447553653165781}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: tow
+  speakerMessage: Is this working right?
   typingSpeeds: []
 --- !u!114 &6187447553653165781
 MonoBehaviour:
@@ -93,7 +93,7 @@ MonoBehaviour:
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: three
+  speakerMessage: Probably Working right?
   typingSpeeds: []
 --- !u!114 &7480103673738650993
 MonoBehaviour:
@@ -112,5 +112,5 @@ MonoBehaviour:
   child: {fileID: 3850570627285763225}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: 'One '
+  speakerMessage: One Two Three
   typingSpeeds: []
