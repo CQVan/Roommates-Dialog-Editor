@@ -66,11 +66,11 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 79c39aefdfbd95e4b8711ae60bde6f31
-  position: {x: 185, y: 0}
+  position: {x: 184, y: 0}
   child: {fileID: 1374761789051995622}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: '&{Breaks}You only have $${testCall} in your account'
+  speakerMessage: You only have $${testCall} in your account
   typingSpeeds: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -92,7 +92,7 @@ MonoBehaviour:
   - {fileID: -6410822211068788882}
   - {fileID: 6475342684802623257}
   group: -1
-  defaultTypingSpeed: 2
+  defaultTypingSpeed: 15
   startEventCalls: []
   endEventCalls: []
 --- !u!114 &1374761789051995622

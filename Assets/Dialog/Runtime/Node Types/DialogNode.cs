@@ -9,7 +9,7 @@ public struct TypingSpeed
     [Tooltip("The length of characters the speed is to last for\nInput 0 if it is to last for the entire message")]
     public int charLength;
     [Tooltip("The speed in which the characters are typed out\nCharacters per second")]
-    public int speed;
+    public float speed;
 }
 
 // Data Calls

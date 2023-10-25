@@ -27,8 +27,6 @@ public struct DataCall
 
 public class DialogManager : MonoBehaviour
 {
-    public DialogTree tree;
-
     public Image speakerImage;
     public TextMeshProUGUI textBox;
 
@@ -37,10 +35,9 @@ public class DialogManager : MonoBehaviour
     public List<EventCall> eventCalls;
     public List<DataCall> dataCalls;
 
-    private void Start()
-    {
-        RunTree(tree);
-    }
+    private Queue<NodeData> nodeQueue = new Queue<NodeData>();
+    private bool displayingLine = false;
+    private DialogTree dialogTree;
 
     public void RunStartCalls(DialogTree tree)
     {
@@ -61,7 +58,7 @@ public class DialogManager : MonoBehaviour
         return input;
     }
 
-    private void RunTree(DialogTree tree)
+    public void RunTree(DialogTree tree)
     {
 
         if(tree.startEventCalls.Length > 0)
@@ -69,22 +66,85 @@ public class DialogManager : MonoBehaviour
             RunStartCalls(tree);
         }
 
-        RootNode root = tree.root;
+        FillDialogQueue(tree);
 
-        if(root.child is DialogNode dialogNode)
+        foreach(NodeData node in nodeQueue)
         {
-            StartCoroutine(DisplayLine(dialogNode, tree));
+            Debug.Log(node);
+        }
+
+        dialogTree = tree;
+
+        DisplayNextLine();
+    }
+
+    public void DisplayNextLine()
+    {
+        if(nodeQueue.Count <= 0)
+        {
+            EndDialog();
+            return;
+        }
+
+        if (displayingLine) return;
+
+        NodeData node = nodeQueue.Dequeue();
+
+        if(node is DialogNode dialogNode)
+        {
+            StartCoroutine(DisplayLine(dialogNode));
+        }
+
+        
+    }
+
+    private void EndDialog()
+    {
+        
+    }
+
+    
+
+    private void FillDialogQueue(DialogTree tree, DialogNode start = null)
+    {
+        nodeQueue.Clear();
+
+        NodeData node = (start == null) ? tree.root.child : start;
+
+        while (true)
+        {
+            if(node is DialogNode dialogNode)
+            {
+
+                nodeQueue.Enqueue(dialogNode);
+                
+                if (dialogNode.child == null)
+                    break;
+
+                node = dialogNode.child;
+
+                continue;  
+            }
+
+            if(node is BranchNode branchNode)
+            {
+                if (branchNode.children.Count > 0)
+                    nodeQueue.Enqueue(branchNode);
+
+                break;
+            }
         }
     }
 
-    public IEnumerator DisplayLine(DialogNode node, DialogTree tree)
+    public IEnumerator DisplayLine(DialogNode node)
     {
 
         textBox.text = "";
+        displayingLine = true;
 
         string message = HandleDataCalls(node.speakerMessage);
 
-        int currentTypingSpeed = tree.defaultTypingSpeed;
+        float currentTypingSpeed = dialogTree.defaultTypingSpeed;
 
         if(node.typingSpeeds.Length > 0)
         {
@@ -96,6 +156,12 @@ public class DialogManager : MonoBehaviour
 
             for(int i = 0; i < messageChars.Length; i++)
             {
+                if (messageChars[i] == ' ')
+                {
+                    textBox.text += messageChars[i];
+                    continue;
+                }
+
                 if (messageChars[i] == '&' && messageChars[i + 1] == '{')
                 {
                     if (message.Substring(i).IndexOf('}') != -1)
@@ -117,11 +183,13 @@ public class DialogManager : MonoBehaviour
 
 
                 }
-
+                
                 textBox.text += messageChars[i];
-                yield return new WaitForSeconds(1 / currentTypingSpeed);
+                yield return new WaitForSeconds(1.0f / currentTypingSpeed);
             }
         }
+
+        displayingLine = false;
     }
 
     private string HandleDataCalls(string speakerMessage)

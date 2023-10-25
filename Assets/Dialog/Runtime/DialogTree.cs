@@ -15,7 +15,7 @@ public class DialogTree : ScriptableObject
 
     [HideInInspector] public int group = -1;
 
-    public int defaultTypingSpeed = 3;
+    public int defaultTypingSpeed = 15;
 
     public string[] startEventCalls;
 

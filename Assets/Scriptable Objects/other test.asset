@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f672d311ab549c549afaabc208aee3ee, type: 3}
+  m_Name: other test
+  m_EditorClassIdentifier: 
+  root: {fileID: 1094963988040138186}
+  nodes:
+  - {fileID: 1094963988040138186}
+  - {fileID: 538957048902902462}
+  - {fileID: 7480103673738650993}
+  - {fileID: 3850570627285763225}
+  - {fileID: 6187447553653165781}
+  group: -1
+  defaultTypingSpeed: 15
+  startEventCalls: []
+  endEventCalls: []
+--- !u!114 &538957048902902462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: a9864e29aa82de94e9a2935ea5f4cccc
+  position: {x: 197.05003, y: -0.0000076293945}
+  child: {fileID: 7480103673738650993}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: Test
+  typingSpeeds: []
+--- !u!114 &1094963988040138186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4348e82f19013b8418127aaa2c0afa12, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  guid: eae4c3aa952a7354d921fc87d5a1c7c4
+  position: {x: 0, y: 0}
+  child: {fileID: 538957048902902462}
+--- !u!114 &3850570627285763225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 8b63be2927389e0438b24fafbf327528
+  position: {x: 616, y: -0.0000009536743}
+  child: {fileID: 6187447553653165781}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: tow
+  typingSpeeds: []
+--- !u!114 &6187447553653165781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 2b8c372ae4e37cc43b9d11047fa5b734
+  position: {x: 870, y: 0}
+  child: {fileID: 0}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: three
+  typingSpeeds: []
+--- !u!114 &7480103673738650993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 53aa2d2dc4d517f45a2a8d85dda102cd
+  position: {x: 392.05002, y: -0.000011920929}
+  child: {fileID: 3850570627285763225}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: 'One '
+  typingSpeeds: []
