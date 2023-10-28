@@ -31,6 +31,7 @@ public class DialogManager : MonoBehaviour
     public TextMeshProUGUI textBox;
 
     public GameObject optionPrefab;
+    public Transform tfOptions;
 
     public List<EventCall> eventCalls;
     public List<DataCall> dataCalls;
@@ -58,7 +59,7 @@ public class DialogManager : MonoBehaviour
         return input;
     }
 
-    public void RunTree(DialogTree tree)
+    public void RunTree(DialogTree tree, NodeData start = null)
     {
 
         if(tree.startEventCalls.Length > 0)
@@ -66,7 +67,7 @@ public class DialogManager : MonoBehaviour
             RunStartCalls(tree);
         }
 
-        FillDialogQueue(tree);
+        FillDialogQueue(tree, start);
 
         dialogTree = tree;
 
@@ -90,7 +91,32 @@ public class DialogManager : MonoBehaviour
             StartCoroutine(DisplayLine(dialogNode));
         }
 
-        
+        if(node is BranchNode branchNode)
+        {
+            DisplayBranchOptions(branchNode);
+        }
+    }
+
+    private void DisplayBranchOptions(BranchNode branchNode)
+    {
+        textBox.gameObject.SetActive(false);
+        ClearOptions();
+
+        foreach (NodeData node in branchNode.children)
+        {
+            if(node is DialogNode dialogNode)
+            {
+                DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
+                dialogOption.optionText.text = dialogNode.speakerMessage;
+                dialogOption.button.onClick.AddListener(() => RunTree(dialogTree, dialogNode));
+
+            }else if(node is BranchNode branchNodeChild)
+            {
+                DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
+                dialogOption.optionText.text = branchNodeChild.branchText;
+                dialogOption.button.onClick.AddListener(() => RunTree(dialogTree, branchNodeChild));
+            }
+        }
     }
 
     private void EndDialog()
@@ -100,7 +126,7 @@ public class DialogManager : MonoBehaviour
 
     
 
-    private void FillDialogQueue(DialogTree tree, DialogNode start = null)
+    private void FillDialogQueue(DialogTree tree, NodeData start = null)
     {
         nodeQueue.Clear();
 
@@ -131,9 +157,19 @@ public class DialogManager : MonoBehaviour
         }
     }
 
+    private void ClearOptions()
+    {
+        for (var i = tfOptions.childCount - 1; i >= 0; i--)
+        {
+            Destroy(tfOptions.GetChild(i).gameObject);
+        }
+    }
+
     public IEnumerator DisplayLine(DialogNode node)
     {
+        ClearOptions();
 
+        textBox.gameObject.SetActive(true);
         textBox.text = "";
         displayingLine = true;
 

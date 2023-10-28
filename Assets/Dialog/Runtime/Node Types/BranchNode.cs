@@ -7,8 +7,14 @@ namespace RDE.Editor.NodeTypes
 {
     public class BranchNode : NodeData
     {
-        //[HideInInspector]
+        
+        [Tooltip("The Option Text of the branch if connected to another branch as a choice")]
+        public string branchText = "";
+
+        [HideInInspector]
         public List<NodeData> children = new List<NodeData>();
+
+        
     }
 }
 
