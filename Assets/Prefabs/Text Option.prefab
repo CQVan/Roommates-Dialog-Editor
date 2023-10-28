@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 7012658719097320758}
   m_Layer: 5
   m_Name: Text Option
-  m_TagString: dialogOption
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

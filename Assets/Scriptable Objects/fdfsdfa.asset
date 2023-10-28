@@ -132,7 +132,7 @@ MonoBehaviour:
   - {fileID: -3582239909681797009}
   - {fileID: 5511357661545332061}
   group: -1
-  defaultTypingSpeed: 15
+  defaultTypingSpeed: 30
   startEventCalls: []
   endEventCalls: []
 --- !u!114 &1374761789051995622
