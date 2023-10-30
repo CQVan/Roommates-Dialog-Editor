@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 6efa2c47de2357243af94dce255ee603
-  position: {x: 637.2501, y: -105}
+  position: {x: 746.5029, y: -136}
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Name: RootNode
   m_EditorClassIdentifier: 
   guid: 487983ddfd671fe47af698fe4b4aaa93
-  position: {x: 0, y: 0}
+  position: {x: -70.82063, y: -0.0000076293945}
   child: {fileID: -1859233649761629033}
 --- !u!114 &-3845116084637707701
 MonoBehaviour:
@@ -47,11 +47,12 @@ MonoBehaviour:
   m_Name: BranchNode
   m_EditorClassIdentifier: 
   guid: 2008fa0ba20e08f4c8639813fc400ddb
-  position: {x: 637.2501, y: -0.00000667572}
+  position: {x: 747, y: 1.0000165}
   branchText: Cocky
   children:
   - {fileID: -3582239909681797009}
   - {fileID: 5511357661545332061}
+  showBranchText: 1
 --- !u!114 &-3582239909681797009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 56d87a2dac32fbb40a358fde7558a0aa
-  position: {x: 839.50006, y: -77.00003}
+  position: {x: 1050, y: -77}
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -103,7 +104,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 79c39aefdfbd95e4b8711ae60bde6f31
-  position: {x: 184, y: 0}
+  position: {x: 102, y: 0.9999926}
   child: {fileID: 1374761789051995622}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -148,12 +149,13 @@ MonoBehaviour:
   m_Name: BranchNode
   m_EditorClassIdentifier: 
   guid: dfca6ff3a13f2604db9e58f4e0693198
-  position: {x: 380, y: 0}
+  position: {x: 491.15, y: 0.9999936}
   branchText: 
   children:
   - {fileID: -6410822211068788882}
   - {fileID: 6475342684802623257}
   - {fileID: -3845116084637707701}
+  showBranchText: 0
 --- !u!114 &5511357661545332061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +169,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: ea4b451326b07f34fb5172770da927da
-  position: {x: 840.0001, y: 76.99999}
+  position: {x: 1049.5029, y: 77.00001}
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: a37a431574bc576458e50137f9e0886f
-  position: {x: 637.2501, y: 104.00001}
+  position: {x: 747, y: 128.50002}
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}

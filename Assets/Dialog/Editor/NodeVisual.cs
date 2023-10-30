@@ -5,6 +5,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine;
 using RDE.Editor.NodeTypes;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class NodeVisual : Node
@@ -24,8 +26,60 @@ public class NodeVisual : Node
         style.left = data.position.x;
         style.top = data.position.y;
 
+        AddDataBindings(data);
+
         GenerateInput();
         GenerateOutput();
+
+        RefreshExpandedState();
+        RefreshPorts(); 
+    }
+
+    private void AddDataBindings(NodeData data)
+    {
+
+        if(data is DialogNode dialogNode)
+        {
+            SerializedObject serializedDialogNode = new SerializedObject(dialogNode);
+
+            extensionContainer.style.flexDirection = FlexDirection.Column;
+
+            TextField speakerMessageDisplay = new TextField("Message ");
+            speakerMessageDisplay.multiline = true;
+            speakerMessageDisplay.labelElement.style.minWidth = 15;
+
+            extensionContainer.Add(speakerMessageDisplay);
+            speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("speakerMessage"));
+
+            speakerMessageDisplay.style.paddingBottom = 3;
+            speakerMessageDisplay.style.paddingLeft = 3;
+            speakerMessageDisplay.style.paddingRight = 3;
+            speakerMessageDisplay.style.paddingTop = 3;
+            speakerMessageDisplay.style.textOverflow = TextOverflow.Ellipsis;
+        }
+        else if(data is BranchNode branchNode)
+        {
+            if(branchNode.showBranchText)
+            {
+                SerializedObject serializedDialogNode = new SerializedObject(branchNode);
+
+                extensionContainer.style.flexDirection = FlexDirection.Column;
+
+                TextField speakerMessageDisplay = new TextField("Option Text ");
+                speakerMessageDisplay.multiline = true;
+                speakerMessageDisplay.labelElement.style.minWidth = 15;
+
+                extensionContainer.Add(speakerMessageDisplay);
+                speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("branchText"));
+
+                speakerMessageDisplay.style.paddingBottom = 3;
+                speakerMessageDisplay.style.paddingLeft = 3;
+                speakerMessageDisplay.style.paddingRight = 3;
+                speakerMessageDisplay.style.paddingTop = 3;
+                speakerMessageDisplay.style.textOverflow = TextOverflow.Ellipsis;
+            }
+
+        }
     }
 
     public override void SetPosition(Rect newPos)

@@ -36,11 +36,11 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: a9864e29aa82de94e9a2935ea5f4cccc
-  position: {x: 151.73871, y: 0.000014066696}
+  position: {x: -161.05675, y: -0.0000035762787}
   child: {fileID: 7480103673738650993}
   speakerName: 
-  speakerSprite: {fileID: 0}
-  speakerMessage: Check
+  speakerSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  speakerMessage: Checking Mic
   typingSpeeds: []
 --- !u!114 &1094963988040138186
 MonoBehaviour:
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: RootNode
   m_EditorClassIdentifier: 
   guid: eae4c3aa952a7354d921fc87d5a1c7c4
-  position: {x: 0, y: 0}
+  position: {x: -338.3211, y: 0.00003027916}
   child: {fileID: 538957048902902462}
 --- !u!114 &3850570627285763225
 MonoBehaviour:
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 8b63be2927389e0438b24fafbf327528
-  position: {x: 479.52942, y: 0.000014066696}
+  position: {x: 277.94324, y: -0.0000035762787}
   child: {fileID: 6187447553653165781}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 2b8c372ae4e37cc43b9d11047fa5b734
-  position: {x: 628.4416, y: 0.000014066696}
+  position: {x: 523.94324, y: -0.0000035762787}
   child: {fileID: 0}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 53aa2d2dc4d517f45a2a8d85dda102cd
-  position: {x: 313.35593, y: 0.000014066696}
+  position: {x: 52, y: 0}
   child: {fileID: 3850570627285763225}
   speakerName: 
   speakerSprite: {fileID: 0}
