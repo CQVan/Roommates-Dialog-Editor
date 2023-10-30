@@ -44,7 +44,7 @@ public class NodeVisual : Node
 
             extensionContainer.style.flexDirection = FlexDirection.Column;
 
-            TextField speakerMessageDisplay = new TextField("Message ");
+            TextField speakerMessageDisplay = new TextField("Message");
             speakerMessageDisplay.multiline = true;
             speakerMessageDisplay.labelElement.style.minWidth = 15;
 
@@ -65,12 +65,12 @@ public class NodeVisual : Node
 
                 extensionContainer.style.flexDirection = FlexDirection.Column;
 
-                TextField speakerMessageDisplay = new TextField("Option Text ");
+                TextField speakerMessageDisplay = new TextField("Option Text");
                 speakerMessageDisplay.multiline = true;
                 speakerMessageDisplay.labelElement.style.minWidth = 15;
 
                 extensionContainer.Add(speakerMessageDisplay);
-                speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("branchText"));
+                speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("optionText"));
 
                 speakerMessageDisplay.style.paddingBottom = 3;
                 speakerMessageDisplay.style.paddingLeft = 3;

@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: BranchNode
   m_EditorClassIdentifier: 
   guid: 2008fa0ba20e08f4c8639813fc400ddb
-  position: {x: 747, y: 1.0000165}
-  branchText: Cocky
+  position: {x: 747, y: 1}
+  optionText: Be Cocky
   children:
   - {fileID: -3582239909681797009}
   - {fileID: 5511357661545332061}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 79c39aefdfbd95e4b8711ae60bde6f31
-  position: {x: 102, y: 0.9999926}
+  position: {x: 102, y: 1}
   child: {fileID: 1374761789051995622}
   speakerName: 
   speakerSprite: {fileID: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: dfca6ff3a13f2604db9e58f4e0693198
   position: {x: 491.15, y: 0.9999936}
-  branchText: 
+  optionText: 
   children:
   - {fileID: -6410822211068788882}
   - {fileID: 6475342684802623257}

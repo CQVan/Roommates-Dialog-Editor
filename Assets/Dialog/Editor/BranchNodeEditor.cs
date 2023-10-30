@@ -15,7 +15,7 @@ public class BranchNodeEditor : Editor
 
         if (node.showBranchText)
         {
-            node.optionText = EditorGUILayout.TextField(node.optionText, node.optionText);
+            node.optionText = EditorGUILayout.TextField("Option Text", node.optionText);
 
         }
     }
