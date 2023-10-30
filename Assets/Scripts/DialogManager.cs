@@ -113,7 +113,7 @@ public class DialogManager : MonoBehaviour
             }else if(node is BranchNode branchNodeChild)
             {
                 DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
-                dialogOption.optionText.text = branchNodeChild.branchText;
+                dialogOption.optionText.text = branchNodeChild.optionText;
                 dialogOption.button.onClick.AddListener(() => RunTree(dialogTree, branchNodeChild));
             }
         }
