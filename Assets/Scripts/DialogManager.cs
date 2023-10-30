@@ -9,13 +9,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 [Serializable]
-public struct EventCall
-{
-    public string eventName;
-    public UnityEvent eventCallback;
-}
-
-[Serializable]
 public class DataCallback : SerializableCallback<string> { }
 
 [Serializable]
@@ -27,13 +20,15 @@ public struct DataCall
 
 public class DialogManager : MonoBehaviour
 {
+    [Header("UI")]
     public Image speakerImage;
     public TextMeshProUGUI textBox;
 
     public GameObject optionPrefab;
     public Transform tfOptions;
 
-    public List<EventCall> eventCalls;
+    [Header("Callbacks")]
+    public UnityEvent<string> EventCallbacks;
     public List<DataCall> dataCalls;
 
     private Queue<NodeData> nodeQueue = new Queue<NodeData>();
@@ -44,13 +39,7 @@ public class DialogManager : MonoBehaviour
     {
         foreach (string callName in tree.startEventCalls)
         {
-            foreach (EventCall call in eventCalls)
-            {
-                if (call.eventName == callName)
-                {
-                    call.eventCallback.Invoke();
-                }
-            }
+            EventCallbacks?.Invoke(callName);
         }
     }
 
@@ -122,6 +111,11 @@ public class DialogManager : MonoBehaviour
     private void EndDialog()
     {
         textBox.text = "";
+
+        foreach(string callName in dialogTree.endEventCalls)
+        {
+            EventCallbacks?.Invoke(callName);
+        }
     }
 
     
@@ -196,17 +190,17 @@ public class DialogManager : MonoBehaviour
                 {
                     string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
 
-                    foreach (EventCall call in eventCalls)
+
+                    i = message.IndexOf('}') + 1;
+
+                    EventCallbacks?.Invoke(callName);
+
+                    if (i >= messageChars.Length)
                     {
-                        if(call.eventName == callName)
-                        {
-                            i = message.IndexOf('}') + 1;
-
-                            if (i >= messageChars.Length) yield break;
-
-                            call.eventCallback.Invoke();
-                        }
+                        displayingLine = false;
+                        yield break;
                     }
+
                 }
 
 

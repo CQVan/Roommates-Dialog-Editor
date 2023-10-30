@@ -926,7 +926,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -1001,7 +1001,21 @@ MonoBehaviour:
   textBox: {fileID: 733777613}
   optionPrefab: {fileID: 5805113181855731570, guid: b53103935ab0a4440a9d9e7ac0feafb1, type: 3}
   tfOptions: {fileID: 431448717}
-  eventCalls: []
+  EventCallbacks:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1291587323}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   dataCalls: []
 --- !u!114 &1291587326
 MonoBehaviour:
@@ -1017,7 +1031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 676371883}
   continueButton: {fileID: 1513581031}
-  tree: {fileID: 11400000, guid: dc6f122eafa0b2e43a336c11f19c1808, type: 2}
+  tree: {fileID: 11400000, guid: 046ce6092c6065a419e00f2f499fb9d3, type: 2}
 --- !u!1 &1461176619
 GameObject:
   m_ObjectHideFlags: 0

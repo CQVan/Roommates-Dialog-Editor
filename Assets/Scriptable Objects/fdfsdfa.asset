@@ -108,7 +108,7 @@ MonoBehaviour:
   child: {fileID: 1374761789051995622}
   speakerName: 
   speakerSprite: {fileID: 0}
-  speakerMessage: You only have $${testCall} in your account
+  speakerMessage: You only have $${testCall} in your account&{Breaks}
   typingSpeeds: []
 --- !u!114 &11400000
 MonoBehaviour:
