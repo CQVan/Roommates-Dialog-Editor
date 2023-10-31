@@ -23,10 +23,13 @@ namespace RDE.Editor.NodeTypes
     {
         [HideInInspector] public NodeData child;
 
+        [SerializeField]
         public string speakerName;
+        [SerializeField]
         public Sprite speakerSprite;
 
         [TextArea(5,20)]
+        [SerializeField]
         public string speakerMessage;
 
         public TypingSpeed[] typingSpeeds;

@@ -81,6 +81,8 @@ public class DialogTreeView : GraphView
 
                 Edge edge = parentVisual.output.ConnectTo(childVisual.input);
                 AddElement(edge);
+
+                
             }
         }
     }
@@ -127,6 +129,11 @@ public class DialogTreeView : GraphView
             NodeVisual child = edge.input.node as NodeVisual;
 
             tree.RemoveChild(parent.data, child.data);
+
+            if(child.data is BranchNode && parent.data is BranchNode)
+            {
+                PopulateView(tree);
+            }
         }
     }
 
@@ -140,6 +147,11 @@ public class DialogTreeView : GraphView
             NodeVisual child = edge.input.node as NodeVisual;
 
             tree.AddChild(parent.data, child.data);
+
+            if (child.data is BranchNode && parent.data is BranchNode)
+            {
+                PopulateView(tree);
+            }
         }
     }
 

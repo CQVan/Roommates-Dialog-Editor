@@ -9,12 +9,15 @@ namespace RDE.Editor.NodeTypes
     {
         
         [Tooltip("The Option Text of the branch if connected to another branch as a choice")]
-        public string branchText = "";
+        [HideInInspector]
+        public string optionText = "";
 
         [HideInInspector]
         public List<NodeData> children = new List<NodeData>();
 
-        
+        [HideInInspector]
+        public bool showBranchText;
+
     }
 }
 

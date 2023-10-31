@@ -65,6 +65,11 @@ public class DialogTree : ScriptableObject
         if (parent is BranchNode branchNode)
         {
             branchNode.children.Add(child);
+
+            if(child is BranchNode branchNodeChild)
+            {
+                branchNodeChild.showBranchText = true;
+            }
         }
         
         EditorUtility.SetDirty(parent);
@@ -87,10 +92,16 @@ public class DialogTree : ScriptableObject
         if (parent is BranchNode branchNode)
         {
             branchNode.children.Remove(child);
+
+            if (child is BranchNode branchNodeChild)
+            {
+                branchNodeChild.showBranchText = false;
+                EditorUtility.SetDirty(child);
+            }
         }
 
         EditorUtility.SetDirty(parent);
-
+        
     }
 
     public List<NodeData> GetChildren(NodeData parent)

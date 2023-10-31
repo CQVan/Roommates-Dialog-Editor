@@ -9,13 +9,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 [Serializable]
-public struct EventCall
-{
-    public string eventName;
-    public UnityEvent eventCallback;
-}
-
-[Serializable]
 public class DataCallback : SerializableCallback<string> { }
 
 [Serializable]
@@ -27,13 +20,17 @@ public struct DataCall
 
 public class DialogManager : MonoBehaviour
 {
+    [Header("UI")]
     public Image speakerImage;
+    public GameObject dialogTextContainer;
     public TextMeshProUGUI textBox;
+    public TextMeshProUGUI nameBox;
 
     public GameObject optionPrefab;
     public Transform tfOptions;
 
-    public List<EventCall> eventCalls;
+    [Header("Callbacks")]
+    public UnityEvent<string> EventCallbacks;
     public List<DataCall> dataCalls;
 
     private Queue<NodeData> nodeQueue = new Queue<NodeData>();
@@ -44,13 +41,7 @@ public class DialogManager : MonoBehaviour
     {
         foreach (string callName in tree.startEventCalls)
         {
-            foreach (EventCall call in eventCalls)
-            {
-                if (call.eventName == callName)
-                {
-                    call.eventCallback.Invoke();
-                }
-            }
+            EventCallbacks?.Invoke(callName);
         }
     }
 
@@ -99,7 +90,7 @@ public class DialogManager : MonoBehaviour
 
     private void DisplayBranchOptions(BranchNode branchNode)
     {
-        textBox.gameObject.SetActive(false);
+        dialogTextContainer.SetActive(false);
         ClearOptions();
 
         foreach (NodeData node in branchNode.children)
@@ -113,7 +104,7 @@ public class DialogManager : MonoBehaviour
             }else if(node is BranchNode branchNodeChild)
             {
                 DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
-                dialogOption.optionText.text = branchNodeChild.branchText;
+                dialogOption.optionText.text = branchNodeChild.optionText;
                 dialogOption.button.onClick.AddListener(() => RunTree(dialogTree, branchNodeChild));
             }
         }
@@ -122,6 +113,11 @@ public class DialogManager : MonoBehaviour
     private void EndDialog()
     {
         textBox.text = "";
+
+        foreach(string callName in dialogTree.endEventCalls)
+        {
+            EventCallbacks?.Invoke(callName);
+        }
     }
 
     
@@ -169,8 +165,11 @@ public class DialogManager : MonoBehaviour
     {
         ClearOptions();
 
-        textBox.gameObject.SetActive(true);
+        speakerImage.sprite = node.speakerSprite;
+
+        dialogTextContainer.SetActive(true);
         textBox.text = "";
+        nameBox.text = node.speakerName;
         displayingLine = true;
 
         Queue<TypingSpeed> speeds = new Queue<TypingSpeed>();
@@ -196,17 +195,17 @@ public class DialogManager : MonoBehaviour
                 {
                     string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
 
-                    foreach (EventCall call in eventCalls)
+
+                    i = message.IndexOf('}') + 1;
+
+                    EventCallbacks?.Invoke(callName);
+
+                    if (i >= messageChars.Length)
                     {
-                        if(call.eventName == callName)
-                        {
-                            i = message.IndexOf('}') + 1;
-
-                            if (i >= messageChars.Length) yield break;
-
-                            call.eventCallback.Invoke();
-                        }
+                        displayingLine = false;
+                        yield break;
                     }
+
                 }
 
 
