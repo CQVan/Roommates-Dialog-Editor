@@ -22,7 +22,9 @@ public class DialogManager : MonoBehaviour
 {
     [Header("UI")]
     public Image speakerImage;
+    public GameObject dialogTextContainer;
     public TextMeshProUGUI textBox;
+    public TextMeshProUGUI nameBox;
 
     public GameObject optionPrefab;
     public Transform tfOptions;
@@ -88,7 +90,7 @@ public class DialogManager : MonoBehaviour
 
     private void DisplayBranchOptions(BranchNode branchNode)
     {
-        textBox.gameObject.SetActive(false);
+        dialogTextContainer.SetActive(false);
         ClearOptions();
 
         foreach (NodeData node in branchNode.children)
@@ -163,8 +165,11 @@ public class DialogManager : MonoBehaviour
     {
         ClearOptions();
 
-        textBox.gameObject.SetActive(true);
+        speakerImage.sprite = node.speakerSprite;
+
+        dialogTextContainer.SetActive(true);
         textBox.text = "";
+        nameBox.text = node.speakerName;
         displayingLine = true;
 
         Queue<TypingSpeed> speeds = new Queue<TypingSpeed>();
