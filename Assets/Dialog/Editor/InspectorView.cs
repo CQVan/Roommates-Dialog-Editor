@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using RDE.Editor.NodeTypes;
+using RDE.Editor;
 
 public class InspectorView : VisualElement
 {
@@ -21,16 +23,21 @@ public class InspectorView : VisualElement
     {
         Clear();
 
+        NodeData nodeData = node.data;
+
         UnityEngine.Object.DestroyImmediate(editor);
 
-        editor = Editor.CreateEditor(node.data);
+        editor = Editor.CreateEditor(nodeData);
+
         IMGUIContainer container = new IMGUIContainer(() => 
-        { 
-            if(editor.target)
+        {
+            if (editor.target)
+            {
                 editor.OnInspectorGUI();
+            }
+                
         });
         Add(container);
     }
-
     
 }

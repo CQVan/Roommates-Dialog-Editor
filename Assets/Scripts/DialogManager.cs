@@ -1,3 +1,4 @@
+using RDE.Editor;
 using RDE.Editor.NodeTypes;
 using System;
 using System.Collections;
@@ -176,13 +177,11 @@ public class DialogManager : MonoBehaviour
         foreach(TypingSpeed speed in node.typingSpeeds)
             speeds.Enqueue(speed);
 
-        speeds.Enqueue(new TypingSpeed() { charLength=-10, speed= dialogTree.defaultTypingSpeed} );
-
         string message = HandleDataCalls(node.speakerMessage);
 
         TypingSpeed firstSpeed = speeds.Dequeue();
         float currentTypingSpeed = firstSpeed.speed;
-        int currentCharLength = firstSpeed.charLength;
+        int currentCharLength = 0;
 
         char[] messageChars = message.ToCharArray();
 
@@ -219,7 +218,6 @@ public class DialogManager : MonoBehaviour
             {
                 TypingSpeed nextSpeed = speeds.Dequeue();
                 currentTypingSpeed = nextSpeed.speed;
-                currentCharLength = nextSpeed.charLength;
             }
         }
 

@@ -40,7 +40,7 @@ MonoBehaviour:
   child: {fileID: 7480103673738650993}
   speakerName: 
   speakerSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  speakerMessage: Checking Mic
+  speakerMessage: Mic Check
   typingSpeeds: []
 --- !u!114 &1094963988040138186
 MonoBehaviour:
@@ -76,10 +76,14 @@ MonoBehaviour:
   speakerSprite: {fileID: 0}
   speakerMessage: Is this working right?
   typingSpeeds:
-  - charLength: 15
+  - startPoint: 0
+    length: 16
+    color: {r: 1, g: 0.3115185, b: 0, a: 0}
     speed: 30
-  - charLength: 1
-    speed: 1
+  - startPoint: 16
+    length: 16
+    color: {r: 0.96811295, g: 1, b: 0, a: 0}
+    speed: 3
 --- !u!114 &6187447553653165781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,19 +116,21 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 53aa2d2dc4d517f45a2a8d85dda102cd
-  position: {x: 52, y: 0}
+  position: {x: 51, y: 0}
   child: {fileID: 3850570627285763225}
   speakerName: 
   speakerSprite: {fileID: 0}
   speakerMessage: One Two Three
   typingSpeeds:
-  - charLength: 3
+  - startPoint: 0
+    length: 3
+    color: {r: 1, g: 0, b: 0, a: 0}
     speed: 15
-  - charLength: 1
-    speed: 3
-  - charLength: 3
+  - startPoint: 4
+    length: 3
+    color: {r: 1, g: 0.473217, b: 0, a: 0}
     speed: 15
-  - charLength: 1
-    speed: 3
-  - charLength: 5
+  - startPoint: 8
+    length: 5
+    color: {r: 0.88328767, g: 1, b: 0, a: 0}
     speed: 15
