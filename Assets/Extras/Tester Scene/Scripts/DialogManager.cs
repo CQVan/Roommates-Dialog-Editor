@@ -212,6 +212,7 @@ public class DialogManager : MonoBehaviour
 
             textBox.text += messageChars[i];
             currentCharLength--;
+
             yield return new WaitForSeconds(1.0f / currentTypingSpeed);
 
             if(currentCharLength == 0)

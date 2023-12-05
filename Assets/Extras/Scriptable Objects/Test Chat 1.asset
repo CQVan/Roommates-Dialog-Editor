@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 6efa2c47de2357243af94dce255ee603
-  position: {x: 746.5029, y: -136}
+  position: {x: 738, y: -114}
   child: {fileID: 0}
   speakerName: The Suit
   speakerSprite: {fileID: 21300000, guid: 54ce89f1e912746ecb70ddf53bead1f8, type: 3}
-  speakerMessage: 
+  speakerMessage: After Text
   typingSpeeds: []
 --- !u!114 &-4694167310973896041
 MonoBehaviour:
@@ -70,7 +70,7 @@ MonoBehaviour:
   child: {fileID: 0}
   speakerName: Texts
   speakerSprite: {fileID: 21300000, guid: aea51f1a175ef466e95835d2787d061f, type: 3}
-  speakerMessage: 
+  speakerMessage: Very Cocky
   typingSpeeds: []
 --- !u!114 &-2783976821243918218
 MonoBehaviour:
@@ -113,15 +113,15 @@ MonoBehaviour:
   - startPoint: 15
     length: 3
     color: {r: 0.16237983, g: 0.8396226, b: 0.16388616, a: 0}
-    speed: 0
+    speed: 20
   - startPoint: 2
-    length: 3
+    length: 9
     color: {r: 0.8392157, g: 0.17330272, b: 0.16078429, a: 0}
-    speed: 0
+    speed: 10
   - startPoint: 19
-    length: 4
+    length: 21
     color: {r: 0, g: 0.5688944, b: 1, a: 0}
-    speed: 0
+    speed: 5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f672d311ab549c549afaabc208aee3ee, type: 3}
-  m_Name: fdfsdfa
+  m_Name: Test Chat 1
   m_EditorClassIdentifier: 
   root: {fileID: -4694167310973896041}
   nodes:
@@ -185,7 +185,7 @@ MonoBehaviour:
   child: {fileID: 0}
   speakerName: Jayne
   speakerSprite: {fileID: 21300000, guid: 093d252d1d41041c8b4df35c330dcc59, type: 3}
-  speakerMessage: 
+  speakerMessage: Not As Cocky
   typingSpeeds: []
 --- !u!114 &6475342684802623257
 MonoBehaviour:
@@ -204,5 +204,5 @@ MonoBehaviour:
   child: {fileID: 0}
   speakerName: The Kid
   speakerSprite: {fileID: 21300000, guid: a4bde53ec7c104f868be7329e31dd480, type: 3}
-  speakerMessage: 
+  speakerMessage: More Text
   typingSpeeds: []

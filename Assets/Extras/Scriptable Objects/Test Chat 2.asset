@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f672d311ab549c549afaabc208aee3ee, type: 3}
-  m_Name: other test
+  m_Name: Test Chat 2
   m_EditorClassIdentifier: 
   root: {fileID: 1094963988040138186}
   nodes:
