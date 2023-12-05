@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
-using RDE.Editor.NodeTypes;
+using RDE.NodeTypes;
 using RDE.Editor;
 
 public class InspectorView : VisualElement

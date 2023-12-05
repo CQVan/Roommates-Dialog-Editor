@@ -1,12 +1,12 @@
-using RDE.Editor;
-using RDE.Editor.NodeTypes;
+using RDE.NodeTypes;
+using RDE.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace RDE.Editor
+namespace RDE.Runtime
 {
 
     [Serializable]
@@ -37,7 +37,7 @@ namespace RDE.Editor
 // ${dataName} is data embeding
 // &{eventName} is event calling
 
-namespace RDE.Editor.NodeTypes
+namespace RDE.NodeTypes
 {
     public class DialogNode : NodeData
     {
@@ -58,13 +58,55 @@ namespace RDE.Editor.NodeTypes
         {
             foreach(TypingSpeed speed in typingSpeeds)
             {
-                Dictionary<int, string> callLocations = new Dictionary<int, string>();
-                string editedMessage = DialogNodeEditor.RemoveCalls(speakerMessage, out callLocations);
+                string editedMessage = RemoveCalls(speakerMessage);
                 if (speed.startPoint > editedMessage.Length)
                 {
                     speed.startPoint = editedMessage.Length;
                 }
             }
+        }
+
+        public static string RemoveCalls(string speakerMessage)
+        {
+            string editedMessage = speakerMessage;
+
+            //Remove Data Calls
+            int startPoint = 0;
+            while (editedMessage.Substring(startPoint).Contains("${"))
+            {
+                int dataCallIndex = editedMessage.IndexOf("${");
+                int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
+
+                startPoint = dataCallIndex + 2;
+
+                if (dataCallEndIndex != -1)
+                {
+
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
+
+                    startPoint = 0;
+                }
+            }
+
+            //Remove Event Calls
+            startPoint = 0;
+            while (editedMessage.Substring(startPoint).Contains("&{"))
+            {
+                int dataCallIndex = editedMessage.IndexOf("&{");
+                int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
+
+                startPoint = dataCallIndex + 2;
+
+                if (dataCallEndIndex != -1)
+                {
+
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
+
+                    startPoint = 0;
+                }
+            }
+
+            return editedMessage;
         }
 
     }

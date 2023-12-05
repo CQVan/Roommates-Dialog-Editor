@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine;
-using RDE.Editor.NodeTypes;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using RDE.NodeTypes;
 
 namespace RDE.Editor
 {

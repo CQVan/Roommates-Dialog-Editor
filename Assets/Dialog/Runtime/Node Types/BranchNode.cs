@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using RDE.Editor.NodeTypes;
+using RDE.NodeTypes;
 
-namespace RDE.Editor.NodeTypes
+namespace RDE.NodeTypes
 {
     public class BranchNode : NodeData
     {
