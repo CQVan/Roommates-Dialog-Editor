@@ -104,24 +104,20 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 79c39aefdfbd95e4b8711ae60bde6f31
-  position: {x: 230, y: 40}
+  position: {x: 229, y: 40}
   child: {fileID: 1374761789051995622}
   speakerName: Tax
   speakerSprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
-  speakerMessage: 0123456789 ${djfskdf} dfadsfaf ${djfskdfd} &{dfjsdkd}
+  speakerMessage: ${thing}0123456789${thing} dfadsfaf${thing}${thing}
   typingSpeeds:
-  - startPoint: 15
-    length: 3
-    color: {r: 0.16237983, g: 0.8396226, b: 0.16388616, a: 0}
-    speed: 20
-  - startPoint: 2
-    length: 9
+  - startPoint: 0
+    length: 11
     color: {r: 0.8392157, g: 0.17330272, b: 0.16078429, a: 0}
     speed: 10
-  - startPoint: 19
-    length: 21
-    color: {r: 0, g: 0.5688944, b: 1, a: 0}
-    speed: 5
+  - startPoint: 15
+    length: 5
+    color: {r: 0.16237983, g: 0.8396226, b: 0.16388616, a: 0}
+    speed: 20
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

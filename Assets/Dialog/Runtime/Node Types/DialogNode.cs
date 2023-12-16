@@ -41,6 +41,23 @@ namespace RDE.NodeTypes
 {
     public class DialogNode : NodeData
     {
+        public struct MessageSection
+        {
+            public MessageSection(TypingSpeed speed, string section)
+            {
+                this.speed = speed;
+                this.section = section;
+            }
+
+            TypingSpeed speed;
+            string section;
+
+            public override string ToString()
+            {
+                return "speed: " + speed.speed + " | section:" + section;
+            }
+        }
+
         [HideInInspector] public NodeData child;
 
         [SerializeField]
@@ -48,7 +65,7 @@ namespace RDE.NodeTypes
         [SerializeField]
         public Sprite speakerSprite;
 
-        [TextArea(5,20)]
+        [TextArea(5, 20)]
         [SerializeField]
         public string speakerMessage;
 
@@ -56,17 +73,69 @@ namespace RDE.NodeTypes
 
         private void OnValidate()
         {
-            foreach(TypingSpeed speed in typingSpeeds)
+            foreach (TypingSpeed speed in typingSpeeds)
             {
                 string editedMessage = RemoveCalls(speakerMessage);
+
                 if (speed.startPoint > editedMessage.Length)
                 {
                     speed.startPoint = editedMessage.Length;
                 }
             }
+
+            foreach (MessageSection section in GetMessageSections(3))
+                Debug.Log(section);
         }
 
-        public static string RemoveCalls(string speakerMessage)
+        public static Dictionary<int, string> GetCallLocations(string speakerMessage)
+        {
+            string editedMessage = speakerMessage;
+            Dictionary<int, string> callLocations = new Dictionary<int, string>();
+
+            //Remove Data Calls
+            int startPoint = 0;
+            while (editedMessage.Substring(startPoint).Contains("${"))
+            {
+                int dataCallIndex = editedMessage.IndexOf("${");
+                int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
+
+                startPoint = dataCallIndex + 2;
+
+                if (dataCallEndIndex != -1)
+                {
+                    //Add Data Call to Dictionary
+                    callLocations.Add(dataCallIndex, editedMessage.Substring(dataCallIndex, dataCallEndIndex + 1));
+
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex);
+
+                    startPoint = 0;
+                }
+            } 
+
+            //Remove Event Calls
+            startPoint = 0;
+            while (editedMessage.Substring(startPoint).Contains("&{"))
+            {
+                int dataCallIndex = editedMessage.IndexOf("&{");
+                int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
+
+                startPoint = dataCallIndex + 2;
+
+                if (dataCallEndIndex != -1)
+                {
+                    //Add Event Call to Dictionary
+                    callLocations.Add(dataCallIndex, editedMessage.Substring(dataCallIndex, dataCallEndIndex + 1));
+
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex);
+
+                    startPoint = 0;
+                }
+            }
+
+            return callLocations;
+        }
+
+        public static string RemoveCalls(string speakerMessage, bool replaceWithSpace = false)
         {
             string editedMessage = speakerMessage;
 
@@ -82,7 +151,7 @@ namespace RDE.NodeTypes
                 if (dataCallEndIndex != -1)
                 {
 
-                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + (replaceWithSpace ? " " : "") + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
 
                     startPoint = 0;
                 }
@@ -100,7 +169,7 @@ namespace RDE.NodeTypes
                 if (dataCallEndIndex != -1)
                 {
 
-                    editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
+                    editedMessage = editedMessage.Substring(0, dataCallIndex) + (replaceWithSpace ? " " : "") + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
 
                     startPoint = 0;
                 }
@@ -109,6 +178,114 @@ namespace RDE.NodeTypes
             return editedMessage;
         }
 
+        public List<MessageSection> GetMessageSections(int defaultSpeed)
+        {
+            List<MessageSection> sections = new List<MessageSection>();
+            TypingSpeed[] speeds = SortSpeeds(typingSpeeds);
+            string editedMessage = RemoveCalls(speakerMessage, true);
+
+            int sectionIndex = 0;
+
+            for (int i = 0; i < speeds.Length; i++)
+            {
+                //Before next section
+                if (speeds[i].startPoint - sectionIndex != 0)
+                {
+                    TypingSpeed sectionSpeed = new TypingSpeed(sectionIndex, speeds[i].startPoint - sectionIndex, defaultSpeed);
+
+                    sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, speeds[i].startPoint - sectionIndex)));
+
+                    sectionIndex += speeds[i].startPoint - sectionIndex;
+                }
+
+                
+                //Checks for colored section for edge cases
+                int coloredSectionLength = speeds[i].length;
+
+                if (i + 1 < speeds.Length)
+                {
+                    coloredSectionLength = Math.Min(coloredSectionLength, speeds[i + 1].startPoint - sectionIndex);
+                }
+
+                if (sectionIndex + coloredSectionLength > editedMessage.Length)
+                    coloredSectionLength = editedMessage.Length - sectionIndex;
+
+                // Apply Section
+                if(coloredSectionLength != 0)
+                {
+                    sections.Add(new MessageSection(speeds[i], GenerateSectionString(sectionIndex, coloredSectionLength)));
+                    sectionIndex += coloredSectionLength;
+                }
+
+
+            }
+
+            if (sectionIndex < editedMessage.Length)
+            {
+                
+                TypingSpeed sectionSpeed = new TypingSpeed(sectionIndex, editedMessage.Length - sectionIndex, defaultSpeed);
+
+                sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)));
+            }
+
+            return sections;
+        }
+
+        public TypingSpeed[] SortSpeeds(List<TypingSpeed> typingSpeeds)
+        {
+            if (typingSpeeds == null)
+            {
+                return new TypingSpeed[0];
+            }
+
+            TypingSpeed[] array = typingSpeeds.ToArray();
+            int size = array.Length;
+
+            for (int step = 1; step < size; step++)
+            {
+                TypingSpeed key = array[step];
+                int j = step - 1;
+
+                // Compare key with each element on the left of it until an element smaller than
+                // it is found.
+                // For descending order, change key<array[j] to key>array[j].
+                while (j >= 0 && key.startPoint < array[j].startPoint)
+                {
+                    array[j + 1] = array[j];
+                    --j;
+                }
+
+                // Place key at after the element just smaller than it.
+                array[j + 1] = key;
+            }
+
+            return array;
+        }
+
+        public string GenerateSectionString(int start, int length)
+        {
+            
+            Dictionary<int, string> callLocations = GetCallLocations(speakerMessage);
+            List<string> section = new List<string>();
+
+            foreach(char cr in RemoveCalls(speakerMessage, true).Substring(start, length).ToCharArray())
+            {
+                section.Add("" + cr);
+            }
+            section.Add("");
+
+            foreach (KeyValuePair<int, string> call in callLocations)
+            {
+                Debug.Log(call.Key + "  " + length + start);
+
+                if(start <= call.Key && call.Key <= length + start)
+                {
+                    section[call.Key - start] = call.Value;
+                }
+            }
+
+            return String.Join("", section);
+        }    
     }
 }
 
@@ -172,7 +349,7 @@ public class DialogNodeEditor : Editor
 
         EditorGUILayout.Space();
 
-        string message = GenerateRichText(node.speakerMessage, SortSpeeds(node.typingSpeeds));
+        string message = GenerateRichText(node.speakerMessage, node.SortSpeeds(node.typingSpeeds));
 
         GUIStyle gUIStyle = new GUIStyle(GUI.skin.label)
         {
@@ -189,146 +366,8 @@ public class DialogNodeEditor : Editor
 
     private string GenerateRichText(string speakerMessage, TypingSpeed[] sortedSpeeds)
     {
-        if (string.IsNullOrEmpty(speakerMessage)) return "";
-        string enrichedMessage = "";
-
-        //remove calls and store their location
-        Dictionary<int, string> callLocations = new Dictionary<int, string>();
-        string editedMessage = RemoveCalls(speakerMessage, out callLocations);
-        //add color tags
-
-        int sectionIndex = 0;
-        List<KeyValuePair<int, string>> highlights = new List<KeyValuePair<int, string>>();
-
-        for(int i = 0; i < sortedSpeeds.Length; i++)
-        {
-            enrichedMessage += editedMessage.Substring(sectionIndex, sortedSpeeds[i].startPoint - sectionIndex);
-            
-            sectionIndex += sortedSpeeds[i].startPoint - sectionIndex;
-
-            string colorTag = "<color=#" + ColorUtility.ToHtmlStringRGB(sortedSpeeds[i].color) + ">";
-            enrichedMessage += colorTag;
-
-            highlights.Add(new KeyValuePair<int, string>(sectionIndex, colorTag));
-
-            int coloredSectionLength = sortedSpeeds[i].length;
-
-            if (i + 1 < sortedSpeeds.Length)
-            {
-                coloredSectionLength = Math.Min(coloredSectionLength, sortedSpeeds[i + 1].startPoint - sectionIndex);
-            }
-            
-            if(sectionIndex + coloredSectionLength > editedMessage.Length)
-                coloredSectionLength = editedMessage.Length - sectionIndex;
-
-            enrichedMessage += editedMessage.Substring(sectionIndex, coloredSectionLength);
-            sectionIndex += coloredSectionLength;
-            
-            enrichedMessage += "</color>";
-            highlights.Add(new KeyValuePair<int, string>(sectionIndex, "</color>"));
-        }
-
-        if(sectionIndex < editedMessage.Length)
-        {
-            enrichedMessage += editedMessage.Substring(sectionIndex);
-        }
-
-        //re-add calls
-
-        int offset = 0;
-
-        foreach(KeyValuePair<int, string> call in callLocations)
-        {
-
-            List<KeyValuePair<int, string>> newHighlights = new List<KeyValuePair<int, string>>();
-
-            foreach (KeyValuePair<int,string> highlight in highlights)
-            {
-                if(highlight.Key < call.Key)
-                {
-                    offset += highlight.Value.Length;
-                }
-                else
-                {
-                    newHighlights.Add(highlight);
-                }
-            }
-            highlights = newHighlights;
-            enrichedMessage = enrichedMessage.Substring(0, call.Key + offset) + call.Value + enrichedMessage.Substring(call.Key + offset);
-            offset += call.Value.Length;
-        }
-
-        return enrichedMessage;
+        return "";
     }
-
-    public static string RemoveCalls(string speakerMessage, out Dictionary<int, string> callLocations) 
-    {
-        string editedMessage = speakerMessage;
-        callLocations = new Dictionary<int, string>();
-
-        //Remove Data Calls
-        int startPoint = 0;
-        while(editedMessage.Substring(startPoint).Contains("${"))
-        {
-            int dataCallIndex = editedMessage.IndexOf("${");
-            int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
-
-            startPoint = dataCallIndex + 2;
-
-            if(dataCallEndIndex != -1)
-            {
-                //Log Data Call
-                callLocations.Add(dataCallIndex, editedMessage.Substring(dataCallIndex, dataCallEndIndex + 1));
-
-                editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring( dataCallIndex + dataCallEndIndex + 1);
-
-                startPoint = 0;
-            }
-        }
-
-        //Remove Event Calls
-        startPoint = 0;
-        while (editedMessage.Substring(startPoint).Contains("&{"))
-        {
-            int dataCallIndex = editedMessage.IndexOf("&{");
-            int dataCallEndIndex = editedMessage.Substring(dataCallIndex).IndexOf("}");
-
-            startPoint = dataCallIndex + 2;
-
-            if (dataCallEndIndex != -1)
-            {
-                //Log Event Call
-                callLocations.Add(dataCallIndex, editedMessage.Substring(dataCallIndex, dataCallEndIndex + 1));
-
-                editedMessage = editedMessage.Substring(0, dataCallIndex) + editedMessage.Substring(dataCallIndex + dataCallEndIndex + 1);
-
-                startPoint = 0;
-            }
-        } 
-         
-        return editedMessage;
-    }
-
-    private TypingSpeed[] SortSpeeds(List<TypingSpeed> typingSpeeds)
-    {
-        TypingSpeed[] sortedSpeeds = typingSpeeds.ToArray();
-
-        for (int i = 0; i < sortedSpeeds.Length; i++)
-        {
-            TypingSpeed key = sortedSpeeds[i];
-            int j = i - 1;
-
-            while (j >= 0 && sortedSpeeds[j].startPoint > key.startPoint)
-            {
-                sortedSpeeds[j + 1] = sortedSpeeds[j];
-                j = j - 1;
-            }
-            sortedSpeeds[j + 1] = key;
-        }
-
-        return sortedSpeeds;
-    }
-
 
 }
 
