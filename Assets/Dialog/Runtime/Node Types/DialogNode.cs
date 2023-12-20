@@ -183,6 +183,7 @@ namespace RDE.NodeTypes
             List<MessageSection> sections = new List<MessageSection>();
             TypingSpeed[] speeds = SortSpeeds(typingSpeeds);
             string editedMessage = RemoveCalls(speakerMessage, true);
+            callLocations = GetCallLocations(speakerMessage);
 
             int sectionIndex = 0;
 
@@ -222,14 +223,14 @@ namespace RDE.NodeTypes
 
             if (sectionIndex < editedMessage.Length)
             {
-                
                 TypingSpeed sectionSpeed = new TypingSpeed(sectionIndex, editedMessage.Length - sectionIndex, defaultSpeed);
 
-                sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)));
+                if(String.IsNullOrEmpty(GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)))
+                    sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)));
             }
 
             return sections;
-        }
+        } 
 
         public TypingSpeed[] SortSpeeds(List<TypingSpeed> typingSpeeds)
         {
@@ -262,10 +263,11 @@ namespace RDE.NodeTypes
             return array;
         }
 
+        Dictionary<int, string> callLocations = new Dictionary<int, string>();
         public string GenerateSectionString(int start, int length)
         {
-            
-            Dictionary<int, string> callLocations = GetCallLocations(speakerMessage);
+
+            List<int> usedCalls = new List<int>();
             List<string> section = new List<string>();
 
             foreach(char cr in RemoveCalls(speakerMessage, true).Substring(start, length).ToCharArray())
@@ -281,7 +283,13 @@ namespace RDE.NodeTypes
                 if(start <= call.Key && call.Key <= length + start)
                 {
                     section[call.Key - start] = call.Value;
+                    usedCalls.Add(call.Key);
                 }
+            }
+
+            foreach(int call in usedCalls)
+            {
+                callLocations.Remove(call);
             }
 
             return String.Join("", section);
