@@ -872,7 +872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19554989, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.45251, y: 0}
+  m_AnchoredPosition: {x: 0.45251465, y: 0}
   m_SizeDelta: {x: -0.90503, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &871945434
@@ -1177,13 +1177,13 @@ MonoBehaviour:
   EventCallbacks:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1291587323}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1291587325}
+        m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+        m_MethodName: TestCallBack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 676371883}
   continueButton: {fileID: 1513581031}
-  tree: {fileID: 11400000, guid: 046ce6092c6065a419e00f2f499fb9d3, type: 2}
+  tree: {fileID: 11400000, guid: f022e100bfc36654c9cb8a32b362469b, type: 2}
 --- !u!1 &1461176619
 GameObject:
   m_ObjectHideFlags: 0

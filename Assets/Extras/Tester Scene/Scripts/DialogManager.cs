@@ -53,7 +53,7 @@ public class DialogManager : MonoBehaviour
     public void RunTree(DialogTree tree, NodeData start = null)
     {
 
-        if(tree.startEventCalls.Length > 0)
+        if (tree.startEventCalls.Length > 0)
         {
             RunStartCalls(tree);
         }
@@ -67,7 +67,7 @@ public class DialogManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
-        if(nodeQueue.Count <= 0)
+        if (nodeQueue.Count <= 0)
         {
             EndDialog();
             return;
@@ -77,12 +77,12 @@ public class DialogManager : MonoBehaviour
 
         NodeData node = nodeQueue.Dequeue();
 
-        if(node is DialogNode dialogNode)
+        if (node is DialogNode dialogNode)
         {
             StartCoroutine(DisplayLine(dialogNode));
         }
 
-        if(node is BranchNode branchNode)
+        if (node is BranchNode branchNode)
         {
             DisplayBranchOptions(branchNode);
         }
@@ -95,13 +95,13 @@ public class DialogManager : MonoBehaviour
 
         foreach (NodeData node in branchNode.children)
         {
-            if(node is DialogNode dialogNode)
+            if (node is DialogNode dialogNode)
             {
                 DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
                 dialogOption.optionText.text = dialogNode.speakerMessage;
                 dialogOption.button.onClick.AddListener(() => RunTree(dialogTree, dialogNode));
 
-            }else if(node is BranchNode branchNodeChild)
+            } else if (node is BranchNode branchNodeChild)
             {
                 DialogOptionButton dialogOption = Instantiate(optionPrefab, tfOptions).GetComponent<DialogOptionButton>();
                 dialogOption.optionText.text = branchNodeChild.optionText;
@@ -114,13 +114,13 @@ public class DialogManager : MonoBehaviour
     {
         textBox.text = "";
 
-        foreach(string callName in dialogTree.endEventCalls)
-        {
-            EventCallbacks?.Invoke(callName);
-        }
-    }
+        if (dialogTree.endEventCalls.Length > 0)
+            foreach (string callName in dialogTree.endEventCalls)
+            {
+                EventCallbacks?.Invoke(callName);
+            }
 
-    
+    }
 
     private void FillDialogQueue(DialogTree tree, NodeData start = null)
     {
@@ -130,20 +130,20 @@ public class DialogManager : MonoBehaviour
 
         while (true)
         {
-            if(node is DialogNode dialogNode)
+            if (node is DialogNode dialogNode)
             {
 
                 nodeQueue.Enqueue(dialogNode);
-                
+
                 if (dialogNode.child == null)
                     break;
 
                 node = dialogNode.child;
 
-                continue;  
+                continue;
             }
 
-            if(node is BranchNode branchNode)
+            if (node is BranchNode branchNode)
             {
                 if (branchNode.children.Count > 0)
                     nodeQueue.Enqueue(branchNode);
@@ -172,74 +172,94 @@ public class DialogManager : MonoBehaviour
         nameBox.text = node.speakerName;
         displayingLine = true;
 
-        Queue<TypingSpeed> speeds = new Queue<TypingSpeed>();
-        foreach(TypingSpeed speed in node.typingSpeeds)
-            speeds.Enqueue(speed);
+        Queue<MessageSection> sections = new Queue<MessageSection>();
 
-        string message = HandleDataCalls(node.speakerMessage);
+        foreach (MessageSection section in node.GetMessageSections(dialogTree.defaultTypingSpeed))
+            sections.Enqueue(section);
 
-        TypingSpeed firstSpeed = speeds.Dequeue();
-        float currentTypingSpeed = firstSpeed.speed;
-        int currentCharLength = 0;
-
-        char[] messageChars = message.ToCharArray();
-
-        for(int i = 0; i < messageChars.Length; i++)
+        
+        while (sections.Count > 0)
         {
+            MessageSection currentSection = sections.Dequeue();
 
-            if (messageChars[i] == '&' && messageChars[i + 1] == '{')
+            Dictionary<int, string> eventCalls = new Dictionary<int, string>();
+
+            string calledSection = HandleEventCalls(HandleDataCalls(currentSection.section), out eventCalls);
+            char[] chars = calledSection.ToCharArray();
+
+            for (int i = 0; i < chars.Length; i++)
             {
-                if (message.Substring(i).IndexOf('}') != -1)
+                bool foundEventCall = false;
+
+                foreach(KeyValuePair<int, string> pair in eventCalls)
                 {
-                    string callName = message.Substring(i + 2, message.Substring(i).IndexOf('}') - 2);
+                    Debug.Log(pair.ToString() + chars.Length);
 
-
-                    i = message.IndexOf('}') + 1;
-
-                    EventCallbacks?.Invoke(callName);
-
-                    if (i >= messageChars.Length)
+                    if(pair.Key == i)
                     {
-                        displayingLine = false;
-                        yield break;
-                    }
+                        EventCallbacks.Invoke(pair.Value);
 
+                        foundEventCall = true;
+                    }
                 }
 
+                if (foundEventCall) continue;
 
-            }
-
-            textBox.text += messageChars[i];
-            currentCharLength--;
-
-            yield return new WaitForSeconds(1.0f / currentTypingSpeed);
-
-            if(currentCharLength == 0)
-            {
-                TypingSpeed nextSpeed = speeds.Dequeue();
-                currentTypingSpeed = nextSpeed.speed;
+                yield return new WaitForSeconds(1.0f / currentSection.speed.speed);
+                textBox.text += chars[i];
             }
         }
 
-        displayingLine = false;
+        displayingLine = false; 
     }
 
-    private string HandleDataCalls(string speakerMessage)
+    public void TestCallBack(string callback)
+    {
+        Debug.Log(callback);
+    }
+
+    private string HandleEventCalls(string section, out Dictionary<int, string> eventCalls)
+    {
+        string editedSection = section;
+        eventCalls = new Dictionary<int, string>();
+
+        //Remove Event Calls
+        int startPoint = 0;
+        while (editedSection.Substring(startPoint).Contains("&{"))
+        {
+            int dataCallIndex = editedSection.IndexOf("&{");
+            int dataCallEndIndex = editedSection.Substring(dataCallIndex).IndexOf("}");
+
+            startPoint = dataCallIndex + 2;
+
+            if (dataCallEndIndex != -1)
+            {
+                eventCalls.Add(dataCallIndex, editedSection.Substring(2 + dataCallIndex, dataCallEndIndex - 2));
+                editedSection = editedSection.Substring(0, dataCallIndex) + " " + editedSection.Substring(dataCallIndex + dataCallEndIndex + 1);
+
+                startPoint = 0;
+            }
+        }
+
+        return editedSection;
+    }
+
+    private string HandleDataCalls(string section)
     {
 
-        int callStart = speakerMessage.IndexOf("${");
+        int callStart = section.IndexOf("${");
         
 
         if(callStart == -1)
         {
-            return speakerMessage;
+            return section;
         }
 
-        int callEnd = speakerMessage[callStart..].IndexOf("}") + callStart-2;
+        int callEnd = section[callStart..].IndexOf("}") + callStart-2;
 
-        string callName = speakerMessage.Substring(callStart + 2, callEnd - callStart);
+        string callName = section.Substring(callStart + 2, callEnd - callStart);
 
-        string message = speakerMessage.Substring(0, callStart);
+        string message = section.Substring(0, callStart);
 
         foreach (DataCall dataCall in dataCalls)
         {
@@ -249,7 +269,7 @@ public class DialogManager : MonoBehaviour
             }
         }
 
-        message += speakerMessage.Substring(callEnd+3);
+        message += section.Substring(callEnd+3);
 
         return HandleDataCalls(message);
     }

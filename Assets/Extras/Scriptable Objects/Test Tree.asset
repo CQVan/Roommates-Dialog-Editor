@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9172911215835486506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: ccf183be2bcae13478a7249ec4986714
+  position: {x: 343, y: 0}
+  tree: {fileID: 11400000}
+  child: {fileID: -6101794839906985624}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: Just by looking at me you probably think I have a girlfriend
+  typingSpeeds: []
+--- !u!114 &-7551159048572127049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4348e82f19013b8418127aaa2c0afa12, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  guid: 02fc8c005c2c927408c8d7130eeccacf
+  position: {x: 0, y: 0}
+  tree: {fileID: 11400000}
+  child: {fileID: 6255149542510567599}
+--- !u!114 &-6101794839906985624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 135bcaaac19c67e47bab9d17d16928c7
+  position: {x: 519, y: 0}
+  tree: {fileID: 11400000}
+  child: {fileID: 0}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: I'm not gonna flex because I don't wanna embarrass the other boys
+  typingSpeeds:
+  - startPoint: 40
+    length: 10
+    color: {r: 1, g: 0, b: 0, a: 0}
+    speed: 10
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f672d311ab549c549afaabc208aee3ee, type: 3}
+  m_Name: Test Tree
+  m_EditorClassIdentifier: 
+  root: {fileID: -7551159048572127049}
+  nodes:
+  - {fileID: -7551159048572127049}
+  - {fileID: 6255149542510567599}
+  - {fileID: -9172911215835486506}
+  - {fileID: -6101794839906985624}
+  group: -1
+  defaultTypingSpeed: 25
+  startEventCalls: []
+  endEventCalls: []
+--- !u!114 &6255149542510567599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb68335c93148364fb3803fc9bddcfb8, type: 3}
+  m_Name: DialogNode
+  m_EditorClassIdentifier: 
+  guid: 0e8fe67132f77e641b37ec9d010cd14b
+  position: {x: 155, y: 0}
+  tree: {fileID: 11400000}
+  child: {fileID: -9172911215835486506}
+  speakerName: 
+  speakerSprite: {fileID: 0}
+  speakerMessage: "Just wait. It\u2019s poetical. Serious.&{stands}"
+  typingSpeeds:
+  - startPoint: 0
+    length: 10
+    color: {r: 1, g: 0, b: 0, a: 0}
+    speed: 25
+  - startPoint: 11
+    length: 15
+    color: {r: 0.8790506, g: 1, b: 0, a: 0}
+    speed: 20
+  - startPoint: 26
+    length: 15
+    color: {r: 0, g: 0.67775345, b: 1, a: 0}
+    speed: 15

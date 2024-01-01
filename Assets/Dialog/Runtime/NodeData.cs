@@ -1,3 +1,4 @@
+using RDE.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,5 +12,8 @@ namespace RDE.NodeTypes
         public string guid;
 
         [HideInInspector] public Vector2 position;
+
+        [HideInInspector]
+        public DialogTree tree;
     }
 }

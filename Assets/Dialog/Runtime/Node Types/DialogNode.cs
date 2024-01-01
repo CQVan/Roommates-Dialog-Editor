@@ -29,6 +29,23 @@ namespace RDE.Runtime
         }
     }
 
+    public struct MessageSection
+    {
+        public MessageSection(TypingSpeed speed, string section)
+        {
+            this.speed = speed;
+            this.section = section;
+        }
+
+        public TypingSpeed speed;
+        public string section;
+
+        public override string ToString()
+        {
+            return "speed: " + speed.speed + " | section:" + section;
+        }
+    }
+
 }
 
 
@@ -38,25 +55,10 @@ namespace RDE.Runtime
 // &{eventName} is event calling
 
 namespace RDE.NodeTypes
-{
+{ 
+
     public class DialogNode : NodeData
     {
-        public struct MessageSection
-        {
-            public MessageSection(TypingSpeed speed, string section)
-            {
-                this.speed = speed;
-                this.section = section;
-            }
-
-            TypingSpeed speed;
-            string section;
-
-            public override string ToString()
-            {
-                return "speed: " + speed.speed + " | section:" + section;
-            }
-        }
 
         [HideInInspector] public NodeData child;
 
@@ -75,7 +77,7 @@ namespace RDE.NodeTypes
         {
             foreach (TypingSpeed speed in typingSpeeds)
             {
-                string editedMessage = RemoveCalls(speakerMessage);
+                string editedMessage = RemoveCalls(speakerMessage, true);
 
                 if (speed.startPoint > editedMessage.Length)
                 {
@@ -83,12 +85,12 @@ namespace RDE.NodeTypes
                 }
             }
 
-            foreach (MessageSection section in GetMessageSections(3))
-                Debug.Log(section);
         }
 
         public static Dictionary<int, string> GetCallLocations(string speakerMessage)
         {
+            if(String.IsNullOrEmpty(speakerMessage)) return new Dictionary<int, string>();
+
             string editedMessage = speakerMessage;
             Dictionary<int, string> callLocations = new Dictionary<int, string>();
 
@@ -137,6 +139,8 @@ namespace RDE.NodeTypes
 
         public static string RemoveCalls(string speakerMessage, bool replaceWithSpace = false)
         {
+            if (String.IsNullOrEmpty(speakerMessage)) return "";
+
             string editedMessage = speakerMessage;
 
             //Remove Data Calls
@@ -225,8 +229,7 @@ namespace RDE.NodeTypes
             {
                 TypingSpeed sectionSpeed = new TypingSpeed(sectionIndex, editedMessage.Length - sectionIndex, defaultSpeed);
 
-                if(String.IsNullOrEmpty(GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)))
-                    sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)));
+                sections.Add(new MessageSection(sectionSpeed, GenerateSectionString(sectionIndex, editedMessage.Length - sectionIndex)));
             }
 
             return sections;
@@ -264,7 +267,7 @@ namespace RDE.NodeTypes
         }
 
         Dictionary<int, string> callLocations = new Dictionary<int, string>();
-        public string GenerateSectionString(int start, int length)
+        public string GenerateSectionString(int start, int length) 
         {
 
             List<int> usedCalls = new List<int>();
@@ -278,7 +281,6 @@ namespace RDE.NodeTypes
 
             foreach (KeyValuePair<int, string> call in callLocations)
             {
-                Debug.Log(call.Key + "  " + length + start);
 
                 if(start <= call.Key && call.Key <= length + start)
                 {
@@ -357,7 +359,7 @@ public class DialogNodeEditor : Editor
 
         EditorGUILayout.Space();
 
-        string message = GenerateRichText(node.speakerMessage, node.SortSpeeds(node.typingSpeeds));
+        string message = GenerateRichText();
 
         GUIStyle gUIStyle = new GUIStyle(GUI.skin.label)
         {
@@ -372,13 +374,23 @@ public class DialogNodeEditor : Editor
 
     }
 
-    private string GenerateRichText(string speakerMessage, TypingSpeed[] sortedSpeeds)
+    private string GenerateRichText()
     {
-        return "";
+        string richText = "";
+
+        foreach (MessageSection section in node.GetMessageSections(node.tree.defaultTypingSpeed))
+        {
+            richText += "<color=#" + ColorUtility.ToHtmlStringRGB(section.speed.color).ToString() + ">";
+            richText += section.section;
+            richText += "</color>";
+        }
+
+        return richText;
     }
 
 }
 
-#endif
+#endif 
 
 
+ 

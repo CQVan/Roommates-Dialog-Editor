@@ -29,6 +29,7 @@ namespace RDE.Runtime
             NodeData node = CreateInstance(type) as NodeData;
             node.name = type.Name;
             node.guid = GUID.Generate().ToString();
+            node.tree = this;
 
             Undo.RecordObject(this, "Created " + node.name);
 
