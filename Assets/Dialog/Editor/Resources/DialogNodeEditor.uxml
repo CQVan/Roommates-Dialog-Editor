@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Dialog/Editor/Resources/DialogNodeEditor.uss?fileID=7433441132597879392&amp;guid=1f5fad72e4e23e04e9b7891a03b2f122&amp;type=3#DialogNodeEditor" />
+    <ui:VisualElement name="fieldsContainer" class="container" style="flex-grow: 0; background-color: rgba(56, 56, 56, 0); -unity-background-image-tint-color: rgb(56, 56, 56);">
+        <uie:ObjectField label="Speaker Sprite" name="speaker-sprite" style="color: rgb(196, 196, 196); flex-direction: row; flex-grow: 1; flex-shrink: 1;" />
+        <ui:TextField picking-mode="Ignore" label="Speaker Name" value="name" multiline="false" auto-correction="false" name="speaker-name" style="color: rgb(196, 196, 196); flex-grow: 0; flex-shrink: 1; width: 100%;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="message-container" style="flex-grow: 1;">
+        <ui:TextField picking-mode="Ignore" label="Text Field" value="filler text" auto-correction="true" multiline="true" name="messageField" class="messageField unity-base-text-field__label unity-field-input" style="flex-grow: 1; height: 253px; color: rgb(163, 163, 163);" />
+        <ui:VisualElement name="speeds-container" style="flex-grow: 0; flex-direction: row; height: 50px;">
+            <ui:Button text="+" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 30%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Anton.ttf?fileID=12800000&amp;guid=997a43b767814dd0a7642ec9b78cba41&amp;type=3#Anton&apos;); -unity-font-style: normal; -unity-text-outline-color: rgba(129, 180, 255, 0); -unity-text-outline-width: 0; border-left-color: rgb(33, 33, 33); border-right-color: rgb(33, 33, 33); border-top-color: rgb(33, 33, 33); border-bottom-color: rgb(33, 33, 33); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; background-color: rgb(81, 81, 81); color: rgb(196, 196, 196);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

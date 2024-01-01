@@ -2,130 +2,139 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using RDE.Editor.NodeTypes;
+using RDE.NodeTypes;
 
-[CreateAssetMenu()]
-public class DialogTree : ScriptableObject
+namespace RDE.Runtime
 {
-    [HideInInspector]public RootNode root;
-
-    [HideInInspector]public List<NodeData> nodes;
-
-    [HideInInspector] public int group = -1;
-
-    public int defaultTypingSpeed = 25;
-
-    public string[] startEventCalls;
-
-    public string[] endEventCalls;
-
-    public NodeData CreateNode(System.Type type)
+    [CreateAssetMenu()]
+    public class DialogTree : ScriptableObject
     {
-        NodeData node = CreateInstance(type) as NodeData;
-        node.name = type.Name;
-        node.guid = GUID.Generate().ToString();
+        [HideInInspector]public RootNode root;
 
-        Undo.RecordObject(this, "Created " + node.name);
+        [HideInInspector]public List<NodeData> nodes;
 
-        nodes.Add(node);
+        [HideInInspector] public int group = -1;
 
-        AssetDatabase.AddObjectToAsset(node, this);
-        Undo.RegisterCreatedObjectUndo(node, "Created " + node.name);
+        public int defaultTypingSpeed = 25;
 
-        AssetDatabase.SaveAssets();
+        public string[] startEventCalls;
 
-        return node;
-    }
+        public string[] endEventCalls;
 
-    public void DeleteNode(NodeData node)
-    {
+    #if UNITY_EDITOR
 
-        nodes.Remove(node);
-
-        AssetDatabase.RemoveObjectFromAsset(node);
-        AssetDatabase.SaveAssets();
-    }
-
-    public void AddChild(NodeData parent, NodeData child)
-    {
-        Undo.RecordObject(parent, "Connected Nodes");
-
-        if (parent is RootNode rootNode)
+        public NodeData CreateNode(System.Type type)
         {
-            rootNode.child = child;
+            NodeData node = CreateInstance(type) as NodeData;
+            node.name = type.Name;
+            node.guid = GUID.Generate().ToString();
+            node.tree = this;
+
+            Undo.RecordObject(this, "Created " + node.name);
+
+            nodes.Add(node);
+
+            AssetDatabase.AddObjectToAsset(node, this);
+            Undo.RegisterCreatedObjectUndo(node, "Created " + node.name);
+
+            AssetDatabase.SaveAssets();
+
+            return node;
         }
 
-        if (parent is DialogNode dialogNode)
+        public void DeleteNode(NodeData node)
         {
-            dialogNode.child = child;
+
+            nodes.Remove(node);
+
+            AssetDatabase.RemoveObjectFromAsset(node);
+            AssetDatabase.SaveAssets();
         }
 
-        if (parent is BranchNode branchNode)
+        public void AddChild(NodeData parent, NodeData child)
         {
-            branchNode.children.Add(child);
+            Undo.RecordObject(parent, "Connected Nodes");
 
-            if(child is BranchNode branchNodeChild)
+            if (parent is RootNode rootNode)
             {
-                branchNodeChild.showBranchText = true;
+                rootNode.child = child;
             }
-        }
+
+            if (parent is DialogNode dialogNode)
+            {
+                dialogNode.child = child;
+            }
+
+            if (parent is BranchNode branchNode)
+            {
+                branchNode.children.Add(child);
+
+                if(child is BranchNode branchNodeChild)
+                {
+                    branchNodeChild.showBranchText = true;
+                }
+            }
         
-        EditorUtility.SetDirty(parent);
-    }
+            EditorUtility.SetDirty(parent);
+        }
     
-    public void RemoveChild(NodeData parent, NodeData child)
-    {
-        Undo.RecordObject(parent, "Disconnected Nodes");
-
-        if (parent is RootNode rootNode)
+        public void RemoveChild(NodeData parent, NodeData child)
         {
-            rootNode.child = null;
-        }
+            Undo.RecordObject(parent, "Disconnected Nodes");
 
-        if (parent is DialogNode dialogNode)
-        {
-            dialogNode.child = null;
-        }
-
-        if (parent is BranchNode branchNode)
-        {
-            branchNode.children.Remove(child);
-
-            if (child is BranchNode branchNodeChild)
+            if (parent is RootNode rootNode)
             {
-                branchNodeChild.showBranchText = false;
-                EditorUtility.SetDirty(child);
+                rootNode.child = null;
             }
-        }
 
-        EditorUtility.SetDirty(parent);
+            if (parent is DialogNode dialogNode)
+            {
+                dialogNode.child = null;
+            }
+
+            if (parent is BranchNode branchNode)
+            {
+                branchNode.children.Remove(child);
+
+                if (child is BranchNode branchNodeChild)
+                {
+                    branchNodeChild.showBranchText = false;
+                    EditorUtility.SetDirty(child);
+                }
+            }
+
+            EditorUtility.SetDirty(parent);
         
+        }
+
+        public List<NodeData> GetChildren(NodeData parent)
+        {
+            List<NodeData> children = new List<NodeData>();
+
+            if (parent is RootNode rootNode)
+            {
+                children.Add(rootNode.child);
+            }
+
+            if (parent is DialogNode dialogNode)
+            {
+                children.Add(dialogNode.child);
+            }
+
+            if(parent is BranchNode branchNode)
+            {
+                children.AddRange(branchNode.children);
+            }
+
+            return children;
+        }
+
+    #endif
     }
 
-    public List<NodeData> GetChildren(NodeData parent)
-    {
-        List<NodeData> children = new List<NodeData>();
-
-        if (parent is RootNode rootNode)
-        {
-            children.Add(rootNode.child);
-        }
-
-        if (parent is DialogNode dialogNode)
-        {
-            children.Add(dialogNode.child);
-        }
-
-        if(parent is BranchNode branchNode)
-        {
-            children.AddRange(branchNode.children);
-        }
-
-        return children;
-    }
 }
+
 
 
 

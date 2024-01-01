@@ -2,8 +2,10 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using RDE.NodeTypes;
 
-namespace RDE.Editor.NodeTypes
+namespace RDE.NodeTypes
 {
     public class BranchNode : NodeData
     {
@@ -19,5 +21,28 @@ namespace RDE.Editor.NodeTypes
         public bool showBranchText;
 
     }
+
+    
 }
+
+#if UNITY_EDITOR
+
+[CustomEditor(typeof(BranchNode))]
+public class BranchNodeEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        BranchNode node = target as BranchNode;
+
+        if (node.showBranchText)
+        {
+            node.optionText = EditorGUILayout.TextField("Option Text", node.optionText);
+
+        }
+    }
+}
+
+#endif
 

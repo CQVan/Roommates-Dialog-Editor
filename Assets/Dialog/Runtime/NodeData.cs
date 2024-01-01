@@ -1,9 +1,10 @@
+using RDE.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RDE.Editor.NodeTypes
+namespace RDE.NodeTypes
 {
     public class NodeData : ScriptableObject
     {
@@ -11,5 +12,8 @@ namespace RDE.Editor.NodeTypes
         public string guid;
 
         [HideInInspector] public Vector2 position;
+
+        [HideInInspector]
+        public DialogTree tree;
     }
 }

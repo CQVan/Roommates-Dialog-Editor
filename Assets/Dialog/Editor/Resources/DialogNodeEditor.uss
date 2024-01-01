@@ -1,0 +1,19 @@
+.container {
+    align-items: flex-start;
+    border-bottom-width: 2px;
+    border-left-color: rgb(89, 89, 89);
+    border-right-color: rgb(89, 89, 89);
+    border-top-color: rgb(89, 89, 89);
+    border-bottom-color: rgb(89, 89, 89);
+    flex-shrink: 1;
+    flex-grow: 0;
+    flex-direction: column;
+}
+
+.messageField > .unity-base-text-field__label {
+    display: none;
+}
+
+.messageField > .unity-field-input {
+    display: flex;
+}
