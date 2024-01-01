@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: ccf183be2bcae13478a7249ec4986714
-  position: {x: 343, y: 0}
+  position: {x: 346.05002, y: 0.000002861023}
   tree: {fileID: 11400000}
   child: {fileID: -6101794839906985624}
   speakerName: 
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 135bcaaac19c67e47bab9d17d16928c7
-  position: {x: 519, y: 0}
+  position: {x: 561.7522, y: 0.000002861023}
   tree: {fileID: 11400000}
   child: {fileID: 0}
   speakerName: 
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f672d311ab549c549afaabc208aee3ee, type: 3}
-  m_Name: Test Tree
+  m_Name: Test Tree 1
   m_EditorClassIdentifier: 
   root: {fileID: -7551159048572127049}
   nodes:
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: DialogNode
   m_EditorClassIdentifier: 
   guid: 0e8fe67132f77e641b37ec9d010cd14b
-  position: {x: 155, y: 0}
+  position: {x: 140, y: 0}
   tree: {fileID: 11400000}
   child: {fileID: -9172911215835486506}
   speakerName: 

@@ -42,13 +42,29 @@ namespace RDE.Editor
 
             if(data is DialogNode dialogNode)
             {
-            
+                SerializedObject serializedDialogNode = new SerializedObject(dialogNode);
+
+                extensionContainer.style.flexDirection = FlexDirection.Column;
+
+                TextField speakerMessageDisplay = new TextField("Message");
+                speakerMessageDisplay.multiline = true;
+                speakerMessageDisplay.labelElement.style.minWidth = 15;
+
+                extensionContainer.Add(speakerMessageDisplay);
+                speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("speakerMessage"));
+
+                speakerMessageDisplay.style.paddingBottom = 3;
+                speakerMessageDisplay.style.paddingLeft = 3;
+                speakerMessageDisplay.style.paddingRight = 3;
+                speakerMessageDisplay.style.paddingTop = 3;
+                speakerMessageDisplay.style.textOverflow = TextOverflow.Ellipsis;
+                speakerMessageDisplay.style.maxWidth = 150;
             }
             else if(data is BranchNode branchNode)
             {
                 if(branchNode.showBranchText)
                 {
-                    SerializedObject serializedDialogNode = new SerializedObject(branchNode);
+                    SerializedObject serializedBranchNode = new SerializedObject(branchNode);
 
                     extensionContainer.style.flexDirection = FlexDirection.Column;
 
@@ -57,7 +73,7 @@ namespace RDE.Editor
                     speakerMessageDisplay.labelElement.style.minWidth = 15;
 
                     extensionContainer.Add(speakerMessageDisplay);
-                    speakerMessageDisplay.BindProperty(serializedDialogNode.FindProperty("optionText"));
+                    speakerMessageDisplay.BindProperty(serializedBranchNode.FindProperty("optionText"));
 
                     speakerMessageDisplay.style.paddingBottom = 3;
                     speakerMessageDisplay.style.paddingLeft = 3;
